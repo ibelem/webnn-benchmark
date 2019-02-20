@@ -2,20 +2,7 @@
   <div>
     <section class="container">
       <div>
-        <nav class="Header__Menu">
-          <NuxtLink :to="$i18n.path('')" class="Header__Link" exact>
-            {{ $t('links.home') }}
-          </NuxtLink>
-          <NuxtLink :to="$i18n.path('about')" class="Header__Link" exact>
-            {{ $t('links.about') }}
-          </NuxtLink>
-          <NuxtLink v-if="$i18n.locale === 'en'" :to="`/zh` + $route.fullPath" class="Header__Link" active-class="none" exact>
-            {{ $t('links.chinese') }}
-          </NuxtLink>
-          <NuxtLink v-else :to="$route.fullPath.replace(/^\/[^\/]+/, '')" class="Header__Link" active-class="none" exact>
-            {{ $t('links.english') }}
-          </NuxtLink>
-        </nav>
+        <Nav />
         <logo />
         <h4 class="title">
           {{ $t('home.title') }}
@@ -25,18 +12,19 @@
         </h5>
       </div>
     </section>
-    <Footer />
   </div>
 </template>
 
 <script>
 import Logo from '~/components/Logo.vue'
-import Footer from '~/components/Footer.vue'
+import Nav from '~/components/Nav.vue'
+// import Footer from '~/components/Footer.vue'
 
 export default {
   components: {
     Logo,
-    Footer
+    Nav
+    // Footer
   },
   head() {
     return { title: this.$t('home.title') }
