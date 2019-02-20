@@ -1,0 +1,22 @@
+{
+  "links": {
+    "home": "Home",
+    "about": "About",
+    "english": "English",
+    "chinese": "中文"
+  },
+  "home": {
+    "title": "Web Neutral Network API (WebNN API) Benchmark",
+    "introduction": "The Web Neutral Network API (WebNN API) Benchmark consists of multiple AI tests performed by separate neural networks on your pc or smartphone browsers"
+  },
+  "about": {
+    "title": "About US"
+  },
+  "badge": {
+    "s": "Supported",
+    "ns": "Not Supported"
+  },
+  "footer": {
+    "name": "WebNN Benchmark"
+  }  
+}

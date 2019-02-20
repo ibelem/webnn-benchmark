@@ -1,0 +1,22 @@
+{
+  "links": {
+    "home": "主頁",
+    "about": "關於",
+    "english": "English",
+    "chinese": "中文"
+  },
+  "home": {
+    "title": "Web Neutral Network API (WebNN API) 基準測試",
+    "introduction": "Web Neutral Network API (WebNN API) 基準測試用於測試神經網絡。"
+  },
+  "about": {
+    "title": "關於我們"
+  },
+  "badge": {
+    "s": "支持",
+    "ns": "不支持"
+  },
+  "footer": {
+    "name": "WebNN 基準測試"
+  }  
+}
