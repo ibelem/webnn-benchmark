@@ -12,6 +12,12 @@
   "about": {
     "title": "關於我們"
   },
+  "login": {
+    "login": "登錄",
+    "log-in": "登錄",
+    "Register": "注冊",
+    "signout": "注銷"
+  }, 
   "badge": {
     "s": "支持",
     "ns": "不支持"

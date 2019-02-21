@@ -12,19 +12,20 @@
         </h5>
       </div>
     </section>
+    <Foot />
   </div>
 </template>
 
 <script>
 import Logo from '~/components/Logo.vue'
 import Nav from '~/components/Nav.vue'
-// import Footer from '~/components/Footer.vue'
+import Foot from '~/components/Foot.vue'
 
 export default {
   components: {
     Logo,
-    Nav
-    // Footer
+    Nav,
+    Foot
   },
   head() {
     return { title: this.$t('home.title') }

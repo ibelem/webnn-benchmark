@@ -2,7 +2,7 @@
   <footer>
     <!-- <Connection /> -->
     <Badge />
-    <!-- <Environment /> -->
+    <Environment />
     <div>
       &copy;2019 {{ $t('footer.name') }}
     </div>
@@ -10,13 +10,13 @@
 </template>
 
 <script>
-// import Environment from '~/components/Environment.vue'
+import Environment from '~/components/Environment.vue'
 // import Connection from '~/components/Connection.vue'
 import Badge from '~/components/Badge.vue'
 
 export default {
   components: {
-    // Environment,
+    Environment,
     // Connection,
     Badge
   }

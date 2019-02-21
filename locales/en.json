@@ -12,11 +12,17 @@
   "about": {
     "title": "About US"
   },
+  "login": {
+    "login": "Login",
+    "log-in": "Log In",
+    "Register": "Sign Up",
+    "signout": "Sign Out"
+  }, 
   "badge": {
     "s": "Supported",
     "ns": "Not Supported"
   },
   "footer": {
     "name": "WebNN Benchmark"
-  }  
+  }
 }

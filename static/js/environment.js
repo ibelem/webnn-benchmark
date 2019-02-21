@@ -92,7 +92,36 @@ const getTimezoneOffsetInHours = () => {
   return (d.getTimezoneOffset() > 0 ? '-' : '+') + d.getTimezoneOffset() / -60
 }
 
-const AIEnvironment = function() {
+const getCompactGPU = () => {
+  if (getGlRenderer()) {
+    let gpu = getGlRenderer()
+    const gpucharacters = [
+      '(Skylake GT2)',
+      'Intel(R)',
+      'vs_5_0 ps_5_0',
+      'NVIDIA GeForce',
+      'Mesa DRI',
+      'Graphics',
+      'Direct3D11',
+      'ANGLE',
+      'Microsoft',
+      'Google',
+      '(TM)',
+      '(',
+      ')'
+    ]
+
+    gpucharacters.forEach(item => {
+      gpu = gpu.replace(item, '')
+    })
+    gpu = gpu.trim()
+    return gpu
+  } else {
+    return ''
+  }
+}
+
+var AIEnvironment = function() {
   this.hardware = () => {
     return {
       devicevendor: uaresult.device.vendor,
@@ -102,6 +131,7 @@ const AIEnvironment = function() {
       cpuhardwareconcurrency: getHardwareConcurrency(),
       gpuvender: getGlVender(),
       gpu: getGlRenderer(),
+      compactgpu: getCompactGPU(),
       devicememory: getDeviceMemory(),
       screenwidth: getScreenWidth(),
       screenheight: getScreenHeight(),

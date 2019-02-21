@@ -3,11 +3,11 @@
     <a-menu v-model="current" mode="horizontal">
       <a-menu-item key="home">
         <NuxtLink :to="$i18n.path('')">
-          <a-icon type="mail" /> {{ $t('links.home') }}
+          <a-icon type="home" /> {{ $t('links.home') }}
         </NuxtLink>
       </a-menu-item>
       <a-menu-item key="benchmark" disabled>
-        <a-icon type="appstore" /> Benchmark
+        <a-icon type="dashboard" /> Benchmark
       </a-menu-item>
       <a-sub-menu>
         <span slot="title" class="submenu-title-wrapper">
@@ -35,7 +35,12 @@
       </a-menu-item>
       <a-menu-item key="about">
         <NuxtLink :to="$i18n.path('about')">
-          {{ $t('links.about') }}
+          {{ $t('links.about') }} 
+        </NuxtLink>
+      </a-menu-item>
+      <a-menu-item key="login">
+        <NuxtLink :to="$i18n.path('login')">
+          <a-icon type="user" /> {{ $t('login.login') }}
         </NuxtLink>
       </a-menu-item>
       <a-menu-item key="locale">

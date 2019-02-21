@@ -11,7 +11,7 @@
       v-if="cpuarchitecture"
     >{{ cpuarchitecture.toUpperCase() }} {{ cpuhardwareconcurrency }} Cores /</span>
     <span v-if="devicememory">{{ devicememory }} GB /</span>
-    {{ getGPU() }}
+    {{ gpu }}
     <br>
     {{ os }} {{ osversion }} {{ osplatform }} / {{ browsername }} {{ browserversion }}
   </div>
@@ -24,11 +24,11 @@ export default {
       {
         // src: 'https://cdn.jsdelivr.net/npm/ua-parser-js@0/dist/ua-parser.min.js',
         src: '../js/ua-parser.min.js',
-        defer: true
+        defer: false
       },
       {
         src: '../js/environment.js',
-        defer: true
+        defer: false
       }
     ],
     link: [
@@ -57,14 +57,12 @@ export default {
       engineversion: ''
     }
   },
-  computed: {
-    // os_and_version: function() {
-    //   return this.os + ' ' + this.osversion
-    // }
-  },
   mounted: function() {
-    const env = new AIEnvironment()
-    const result = env.result()
+    /* global AIEnvironment */
+    /* eslint no-undef: "error" */
+
+    const aienv = new AIEnvironment()
+    const result = aienv.result()
     this.devicevendor = result.hardware.devicevendor
       ? result.hardware.devicevendor
       : ''
@@ -79,7 +77,7 @@ export default {
       : ''
     this.cpuarchitecture = result.hardware.cpuarchitecture
     this.cpuhardwareconcurrency = result.hardware.cpuhardwareconcurrency
-    this.gpu = result.hardware.gpu
+    this.gpu = result.hardware.compactgpu
     this.gpuvender = result.hardware.gpuvender
 
     this.os = result.software.os
@@ -89,37 +87,6 @@ export default {
     this.browserversion = result.browser.version
     this.enginename = result.browser.enginename
     this.engineversion = result.browser.engineversion
-  },
-  methods: {
-    getGPU() {
-      if (this.gpu) {
-        let gpu = this.gpu
-        const gpucharacters = [
-          '(Skylake GT2)',
-          'Intel(R)',
-          'vs_5_0 ps_5_0',
-          'NVIDIA GeForce',
-          'Mesa DRI',
-          'Graphics',
-          'Direct3D11',
-          'ANGLE',
-          'Microsoft',
-          'Google',
-          '(TM)',
-          '(',
-          ')'
-        ]
-
-        gpucharacters.forEach(item => {
-          gpu = gpu.replace(item, '')
-        })
-
-        gpu = gpu.trim()
-        return gpu
-      } else {
-        return ''
-      }
-    }
   }
 }
 </script>
