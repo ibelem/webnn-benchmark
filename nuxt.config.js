@@ -39,7 +39,10 @@ module.exports = {
   /*
   ** Global CSS
   */
-  css: ['ant-design-vue/dist/antd.css', '~/assets/css/main.css'],
+  css: [
+    { src: 'ant-design-vue/dist/antd.less', lang: 'less' },
+    { src: '~/assets/css/main.css' }
+  ],
 
   /*
   ** Plugins to load before mounting the App
@@ -80,10 +83,15 @@ module.exports = {
           exclude: /(node_modules)/
         })
       }
-      ctx.loaders.less.javascriptEnabled = true
-      ctx.loaders.less.modifyVars = {
-        'primary-color': 'rgba(222, 12, 101, 1.0)',
-        'component-background': '#262626'
+    },
+    loaders: {
+      less: {
+        javascriptEnabled: true,
+        modifyVars: {
+          'primary-color': 'rgba(222, 12, 101, 1.0)',
+          'component-background': '#ffffff',
+          'layout-header-background': '#ffffff'
+        }
       }
     }
   }

@@ -11,31 +11,31 @@
       </a-menu-item>
       <a-sub-menu>
         <span slot="title" class="submenu-title-wrapper">
-          <a-icon type="setting" />Tests
+          <a-icon type="api" /> Tests
         </span>
-        <a-menu-item-group title="Item 1">
-          <a-menu-item key="setting:1">
-            Option 1
+        <a-menu-item-group title="TensorflowLite Format">
+          <a-menu-item key="test:1">
+            MobileNet v1
           </a-menu-item>
-          <a-menu-item key="setting:2">
-            Option 2
+          <a-menu-item key="test:2">
+            MobileNet v2
           </a-menu-item>
         </a-menu-item-group>
-        <a-menu-item-group title="Item 2">
-          <a-menu-item key="setting:3">
-            Option 3
+        <a-menu-item-group title="ONNX Format">
+          <a-menu-item key="test:3">
+            SqueezeNet
           </a-menu-item>
-          <a-menu-item key="setting:4">
+          <a-menu-item key="test:4">
             Option 4
           </a-menu-item>
         </a-menu-item-group>
       </a-sub-menu>
       <a-menu-item key="ranking" disabled>
-        <a-icon type="appstore" /> Ranking
+        <a-icon type="trophy" /> Ranking
       </a-menu-item>
       <a-menu-item key="about">
         <NuxtLink :to="$i18n.path('about')">
-          {{ $t('links.about') }} 
+          <a-icon type="message" /> {{ $t('links.about') }} 
         </NuxtLink>
       </a-menu-item>
       <a-menu-item key="login">
@@ -45,10 +45,10 @@
       </a-menu-item>
       <a-menu-item key="locale">
         <NuxtLink v-if="$i18n.locale === 'en'" :to="`/zh` + $route.fullPath">
-          {{ $t('links.chinese') }}
+          <a-icon type="global" /> {{ $t('links.chinese') }}
         </NuxtLink>
         <NuxtLink v-else :to="$route.fullPath.replace(/^\/[^\/]+/, '')">
-          {{ $t('links.english') }}
+          <a-icon type="global" /> {{ $t('links.english') }}
         </NuxtLink>
       </a-menu-item>
     </a-menu>
