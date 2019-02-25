@@ -1,7 +1,3 @@
-/*
-    Min Zhang
-*/
-
 const uaparser = new UAParser()
 const uaresult = uaparser.getResult()
 let canvasE, gl, glVender, glRenderer, debugInfo
