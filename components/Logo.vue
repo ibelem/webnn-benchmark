@@ -78,6 +78,7 @@
 <style scope>
 svg {
   float: left;
+  margin-left: 24px;
 }
 
 @media only screen and (device-width: 768px),
@@ -85,6 +86,7 @@ svg {
   svg {
     float: none;
     display: block;
+    margin-left: 0px;
   }
 }
 </style>

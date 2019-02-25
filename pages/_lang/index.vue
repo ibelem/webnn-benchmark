@@ -3,12 +3,7 @@
     <a-layout-header>
       <Nav />
     </a-layout-header>
-    <a-layout-content style="padding: 50px 50px">
-      <a-breadcrumb style="margin: 16px 0">
-        <a-breadcrumb-item>Home</a-breadcrumb-item>
-        <a-breadcrumb-item>List</a-breadcrumb-item>
-        <a-breadcrumb-item>App</a-breadcrumb-item>
-      </a-breadcrumb>
+    <a-layout-content style="padding: 50px 10px">
       <div :style="{ background: '#fff', padding: '24px', minHeight: '280px' }">
         <h3 class="title">
           {{ $t('home.title') }}

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="contaner">
     <nuxt-link class="navbar-item" to="/">
       <Logo />
     </nuxt-link>
@@ -79,8 +79,10 @@ export default {
   text-align: right;
 }
 
-@media only screen and (device-width: 768px),
-  only screen and (max-width: 768px) {
+@media only screen and (max-width: 768px) {
+  .ant-layout-header {
+    padding: 0 24px;
+  }
   .ant-menu-horizontal {
     text-align: left;
   }

@@ -16,7 +16,7 @@ module.exports = {
       },
       { hid: 'description', name: 'description', content: pkg.description }
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }],
     script: [
       // { src: 'https://bulma.io/lib/navbar.js' }
       // { src: 'https://use.fontawesome.com/releases/v5.1.0/js/all.js' , defer: false },
@@ -90,7 +90,8 @@ module.exports = {
         modifyVars: {
           'primary-color': 'rgba(222, 12, 101, 1.0)',
           'component-background': '#ffffff',
-          'layout-header-background': '#ffffff'
+          'layout-header-background': '#ffffff',
+          'layout-body-background': '#ffffff'
         }
       }
     }
