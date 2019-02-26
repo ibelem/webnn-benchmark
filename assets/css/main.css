@@ -1,18 +1,43 @@
+.ant-layout {
+  margin: 0px auto;
+}
+
+.ant-layout-header {
+  padding: 0;
+}
+
+.ant-layout-content {
+  min-height: 50vh;
+  align-items: center;
+  display: flex;
+}
+
 @media screen and (min-width: 1280px) {
-  .container {
+  .ant-layout {
     max-width: 1152px;
     width: 1152px;
   }
 }
 
 @media screen and (min-width: 1088px) {
-  .container {
+  .ant-layout {
     max-width: 960px;
     width: 960px;
   }
 }
 
-.container {
-  margin: 0 auto;
-  position: relative;
+@media screen and (max-width: 1088px) and (min-width: 768px) {
+  .ant-layout {
+    padding: 0 24px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .ant-layout {
+    padding: 0 24px;
+    margin: 10px auto;
+  }
+  .ant-layout-content {
+    margin-top: 60px;
+  }
 }

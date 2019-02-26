@@ -3,8 +3,8 @@
     <a-layout-header>
       <Nav />
     </a-layout-header>
-    <a-layout-content style="padding: 50px 10px">
-      <div :style="{ background: '#fff', padding: '24px', minHeight: '280px' }">
+    <a-layout-content>
+      <div>
         <h3 class="title">
           {{ $t('home.title') }}
         </h3>

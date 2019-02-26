@@ -78,11 +78,9 @@
 <style scope>
 svg {
   float: left;
-  margin-left: 24px;
 }
 
-@media only screen and (device-width: 768px),
-  only screen and (max-width: 768px) {
+@media only screen and (max-width: 768px) {
   svg {
     float: none;
     display: block;

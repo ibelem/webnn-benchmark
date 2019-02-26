@@ -6,8 +6,8 @@
     "chinese": "中文"
   },
   "home": {
-    "title": "Web Neutral Network API (WebNN API) Benchmark",
-    "introduction": "The Web Neutral Network API (WebNN API) Benchmark consists of multiple AI tests performed by separate neural networks on your pc or smartphone browsers"
+    "title": "AIMark for WebNN",
+    "introduction": "The AIMark for WebNN consists of multiple AI tests performed by separate neural networks on your pc or smartphone browsers"
   },
   "about": {
     "title": "About US"
