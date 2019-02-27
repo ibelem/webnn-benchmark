@@ -6,10 +6,36 @@
   padding: 0;
 }
 
+.ant-menu-horizontal {
+  border-bottom: 0px solid transparent;
+  text-align: right;
+  line-height: 30px;
+  margin-top: 16px;
+  white-space: pre-wrap;
+}
+
+.ant-menu-horizontal > .ant-menu-item-selected, 
+.ant-menu-horizontal > .ant-menu-item:hover,
+.ant-menu-horizontal > .ant-menu-item, 
+.ant-menu-horizontal > .ant-menu-item-open,
+.ant-menu-horizontal > .ant-menu-submenu-active,
+.ant-menu-horizontal > .ant-menu-submenu:hover {
+  border-bottom-width: 1px;
+}
+
+.ant-menu-item, .ant-menu-submenu-title {
+  padding: 0 0px;
+  margin-right: 10px;
+}
+
 .ant-layout-content {
   min-height: 50vh;
   align-items: center;
   display: flex;
+}
+
+.ant-layout-footer {
+  padding: 0;
 }
 
 @media screen and (min-width: 1280px) {
@@ -36,6 +62,24 @@
   .ant-layout {
     padding: 0 24px;
     margin: 10px auto;
+  }
+  .ant-layout-header {
+    display: flex;
+    align-items: center;
+    height: 40px;
+  }
+
+  .ant-layout-header svg {
+    width: 160px;
+    display: inline-block;
+  }
+  .ant-menu-horizontal {
+    display: inline-block;
+    border-bottom: 0px solid transparent;
+    text-align: left;
+    margin-top: 0;
+    margin-left: 40px;
+    /* FLex 排版 兩端 */
   }
   .ant-layout-content {
     margin-top: 60px;

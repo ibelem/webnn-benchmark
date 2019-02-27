@@ -6,16 +6,17 @@
     height="60.6"
   >
     <defs>
-      <path id="brFvH2MH" d="M196.24 12L263.81 12L263.81 34.57L196.24 34.57L196.24 12Z" />
+      <path id="brFvH2MH" class="webnn" d="M169.24 12L233.81 12L233.81 34.57L169.24 34.57L169.24 12Z" />
       <text
         id="b275rrPOpF"
         x="65.54"
         y="86.73"
+        class="aimark"
         font-size="44" 
         font-family="Quicksand"
         font-weight="normal"
         font-style="normal"
-        letter-spacing="0"
+        letter-spacing="-4"
         alignment-baseline="before-edge" 
         transform="matrix(1 0 0 1 -55.54217821782178 -80.72841584158415)" 
         style="line-height:100%"
@@ -39,31 +40,33 @@
         font-family="Quicksand"
         font-weight="normal"
         font-style="normal" 
-        letter-spacing="0" 
+        letter-spacing="-1" 
+        class="for"
         alignment-baseline="before-edge"
         transform="matrix(1 0 0 1 -47.8217821782178 -223.24287128712876)"
         style="line-height:100%"
         xml:space="preserve"
         dominant-baseline="text-before-edge"
       >
-        <tspan x="213.07" dy="0em" alignment-baseline="before-edge" dominant-baseline="text-before-edge" text-anchor="start">for</tspan>
+        <tspan x="190.07" dy="0em" alignment-baseline="before-edge" dominant-baseline="text-before-edge" text-anchor="start">for</tspan>
       </text>
       <text
         id="f3iF29oo7"
-        x="287.33"
+        x="261.33"
         y="233.27"
         font-size="18"
         font-family="Quicksand"
         font-weight="400"
         font-style="normal"
-        letter-spacing="0"
+        letter-spacing="-1"
+        class="webnn"
         alignment-baseline="before-edge"
         transform="matrix(1 0 0 1 -87.77372973231988 -221.26267326732676)"
         style="line-height:100%"
         xml:space="preserve"
         dominant-baseline="text-before-edge"
       >
-        <tspan x="287.33" dy="0em" alignment-baseline="before-edge" dominant-baseline="text-before-edge" text-anchor="start">webnn</tspan>
+        <tspan x="261.33" dy="0em" alignment-baseline="before-edge" dominant-baseline="text-before-edge" text-anchor="start">webnn</tspan>
       </text>
     </defs>
     <g>
@@ -80,11 +83,50 @@ svg {
   float: left;
 }
 
+svg text {
+  stroke-dasharray: 100% 0;
+}
+
+svg .aimark {
+  animation: stroke-offset 0.25s ease-out;
+}
+
+svg .for {
+  animation: stroke-offset 0.75s ease-out;
+}
+
+svg .webnn {
+  animation: stroke-offset 1.5s ease-out;
+}
+
+@keyframes stroke-offset {
+  0% {
+    fill-opacity: 0;
+    stroke-width: 0;
+    stroke-dasharray: 0% 100%;
+  }
+  25% {
+    stroke-width: 3px;
+  }
+  50% {
+    fill-opacity: 0;
+  }
+  75% {
+    stroke-width: 3px;
+  }
+  100% {
+    stroke-width: 0;
+  }
+}
+
+svg rect {
+  animation: stroke-offset 2s ease-in;
+}
+
 @media only screen and (max-width: 768px) {
   svg {
-    float: none;
     display: block;
-    margin-left: 0px;
+    width: 160px;
   }
 }
 </style>

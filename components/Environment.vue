@@ -1,7 +1,8 @@
 <template>
-  <div>
+  <div id="environment">
     <div
       v-if="devicevendor.toString().length > 0 || devicemodel.toString().length > 0 || devicetype.toString().length > 0"
+      id="device"
     >
       <span v-if="devicevendor">{{ devicevendor }}</span>
       <span v-if="devicemodel">{{ devicemodel }}</span>
@@ -92,6 +93,12 @@ export default {
 </script>
 
 <style scoped>
+#environment {
+  font-size: 0.75rem;
+}
+#device {
+  display: inline;
+}
 .cap {
   text-transform: capitalize;
 }

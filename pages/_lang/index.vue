@@ -1,8 +1,6 @@
 <template>
   <a-layout id="components-layout-index-top" class="layout">
-    <a-layout-header>
-      <Nav />
-    </a-layout-header>
+    <LHeader />
     <a-layout-content>
       <div>
         <h3 class="title">
@@ -13,20 +11,18 @@
         </h4>
       </div>
     </a-layout-content>
-    <a-layout-footer style="text-align: center">
-      <Foot />
-    </a-layout-footer>
+    <LFooter />
   </a-layout>
 </template>
 
 <script>
-import Nav from '~/components/Nav.vue'
-import Foot from '~/components/Foot.vue'
+import LHeader from '~/components/LHeader.vue'
+import LFooter from '~/components/LFooter.vue'
 
 export default {
   components: {
-    Nav,
-    Foot
+    LHeader,
+    LFooter
   },
   head() {
     return { title: this.$t('home.title') }

@@ -20,7 +20,7 @@
   }, 
   "badge": {
     "s": "Supported",
-    "ns": "Not Supported"
+    "ns": "Unsupported"
   },
   "footer": {
     "name": "AIMark"

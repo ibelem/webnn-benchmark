@@ -1,12 +1,14 @@
 <template>
-  <footer>
-    <!-- <Connection /> -->
-    <Badge />
-    <Environment />
-    <div>
-      &copy;2019 {{ $t('footer.name') }}
-    </div>
-  </footer>
+  <a-layout-footer>
+    <footer>
+      <!-- <Connection /> -->
+      <Badge />
+      <Environment />
+      <div>
+        &copy;2019 {{ $t('footer.name') }}
+      </div>
+    </footer>
+  </a-layout-footer>
 </template>
 
 <script>
@@ -24,10 +26,10 @@ export default {
 </script>
 
 <style scoped>
-footer {
+.ant-layout-footer {
   text-align: center;
 }
-footer div {
+.ant-layout-footer div {
   margin-top: 1rem;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <a-layout-header>
     <nuxt-link class="navbar-item" to="/">
       <Logo />
     </nuxt-link>
@@ -55,7 +55,7 @@
         </NuxtLink>
       </a-menu-item>
     </a-menu>
-  </div>
+  </a-layout-header>
 </template>
 
 <script>
@@ -74,14 +74,4 @@ export default {
 </script>
 
 <style scope>
-.ant-menu-horizontal {
-  border-bottom: none;
-  text-align: right;
-}
-
-@media only screen and (max-width: 768px) {
-  .ant-menu-horizontal {
-    text-align: left;
-  }
-}
 </style>

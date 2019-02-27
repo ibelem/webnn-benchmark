@@ -1,9 +1,6 @@
 <template>
   <a-layout id="components-layout-index-top" class="layout">
-    <a-layout-header>
-      <div class="logo" />
-      <Nav />
-    </a-layout-header>
+    <LHeader />
     <a-layout-content style="padding: 0 50px">
       <a-breadcrumb style="margin: 16px 0">
         <a-breadcrumb-item>Home</a-breadcrumb-item>
@@ -17,22 +14,18 @@
         <Logo />
       </div>
     </a-layout-content>
-    <a-layout-footer style="text-align: center">
-      <Foot />
-    </a-layout-footer>
+    <LFooter />
   </a-layout>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-import Nav from '~/components/Nav.vue'
-import Foot from '~/components/Foot.vue'
+import LHeader from '~/components/LHeader.vue'
+import LFooter from '~/components/LFooter.vue'
 
 export default {
   components: {
-    Logo,
-    Nav,
-    Foot
+    LHeader,
+    LFooter
   },
   head() {
     return { title: this.$t('about.title') }
