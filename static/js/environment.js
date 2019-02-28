@@ -1,22 +1,20 @@
-const uaparser = new UAParser()
-const uaresult = uaparser.getResult()
-let canvasE, gl, glVender, glRenderer, debugInfo
+var canvasE, gl, glVender, glRenderer, debugInfo
 
-const getCanvas = () => {
+var getCanvas = () => {
   if (canvasE == null) {
     canvasE = document.createElement('canvas')
   }
   return canvasE
 }
 
-const getGl = () => {
+var getGl = () => {
   if (gl == null) {
     gl = getCanvas().getContext('experimental-webgl')
   }
   return gl
 }
 
-const getGlVender = () => {
+var getGlVender = () => {
   if (glVender == null) {
     debugInfo = getGl().getExtension('WEBGL_debug_renderer_info')
     // Return the VENDOR string of the underlying graphics driver
@@ -28,7 +26,7 @@ const getGlVender = () => {
   return glVender
 }
 
-const getGlRenderer = () => {
+var getGlRenderer = () => {
   if (glRenderer == null) {
     debugInfo = getGl().getExtension('WEBGL_debug_renderer_info')
     // Return the RENDERER string of the underlying graphics driver
@@ -40,16 +38,16 @@ const getGlRenderer = () => {
   return glRenderer
 }
 
-const getScreenWidth = () => {
+var getScreenWidth = () => {
   return screen.width * (window.devicePixelRatio || 1)
 }
 
-const getScreenHeight = () => {
+var getScreenHeight = () => {
   return screen.height * (window.devicePixelRatio || 1)
 }
 
 // Return the number of logical processors available to run threads on the user's computer
-const getHardwareConcurrency = () => {
+var getHardwareConcurrency = () => {
   if (navigator.hardwareConcurrency) {
     return navigator.hardwareConcurrency
   }
@@ -60,14 +58,14 @@ const getHardwareConcurrency = () => {
 // This value is an approximation given by rounding to the nearest power of 2
 // and dividing that number by 1024.
 // Device-Memory Client Hint header and JS API will only be available to HTTPS secure contexts
-const getDeviceMemory = () => {
+var getDeviceMemory = () => {
   if (navigator.deviceMemory) {
     return navigator.deviceMemory
   }
   return undefined
 }
 
-const getTouchSupport = () => {
+var getTouchSupport = () => {
   let maxTouchPoints = 0
   let touchEvent = false
   if (typeof navigator.maxTouchPoints !== 'undefined') {
@@ -83,12 +81,12 @@ const getTouchSupport = () => {
   return [maxTouchPoints, touchEvent, touchStart]
 }
 
-const getTimezoneOffsetInHours = () => {
+var getTimezoneOffsetInHours = () => {
   const d = new Date()
   return (d.getTimezoneOffset() > 0 ? '-' : '+') + d.getTimezoneOffset() / -60
 }
 
-const getCompactGPU = () => {
+var getCompactGPU = () => {
   if (getGlRenderer()) {
     let gpu = getGlRenderer()
     const gpucharacters = [
@@ -117,6 +115,8 @@ const getCompactGPU = () => {
   }
 }
 
+var uaparser = new UAParser()
+var uaresult = uaparser.getResult()
 var AIEnvironment = function() {
   this.hardware = () => {
     return {

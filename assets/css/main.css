@@ -14,18 +14,29 @@
   white-space: pre-wrap;
 }
 
-.ant-menu-horizontal > .ant-menu-item-selected, 
-.ant-menu-horizontal > .ant-menu-item:hover,
-.ant-menu-horizontal > .ant-menu-item, 
-.ant-menu-horizontal > .ant-menu-item-open,
-.ant-menu-horizontal > .ant-menu-submenu-active,
-.ant-menu-horizontal > .ant-menu-submenu:hover {
+.ant-menu-horizontal>.ant-menu-item,
+.ant-menu-horizontal>.ant-menu-item:hover,
+.ant-menu-horizontal>.ant-menu-submenu:hover,
+.ant-menu-horizontal>.ant-menu-item-active,
+.ant-menu-horizontal>.ant-menu-submenu-active,
+.ant-menu-horizontal>.ant-menu-item-open,
+.ant-menu-horizontal>.ant-menu-submenu-open,
+.ant-menu-horizontal>.ant-menu-item-selected,
+.ant-menu-horizontal>.ant-menu-submenu-selected,
+.ant-menu-horizontal>.ant-menu-submenu {
   border-bottom-width: 1px;
 }
 
-.ant-menu-item, .ant-menu-submenu-title {
+.ant-menu-item,
+.ant-menu-submenu-title,
+.ant-menu-submenu,
+.ant-menu-submenu-horizontal {
   padding: 0 0px;
-  margin-right: 10px;
+}
+
+.ant-menu-item,
+.ant-menu-submenu-horizontal {
+  margin-right: 20px;
 }
 
 .ant-layout-content {
@@ -65,10 +76,10 @@
   }
   .ant-layout-header {
     display: flex;
+    justify-content: space-between;
     align-items: center;
     height: 40px;
   }
-
   .ant-layout-header svg {
     width: 160px;
     display: inline-block;
@@ -76,10 +87,30 @@
   .ant-menu-horizontal {
     display: inline-block;
     border-bottom: 0px solid transparent;
-    text-align: left;
     margin-top: 0;
-    margin-left: 40px;
-    /* FLex 排版 兩端 */
+    width: 20px;
+  }
+  .ant-menu-horizontal>.ant-menu-item,
+  .ant-menu-horizontal>.ant-menu-item:hover,
+  .ant-menu-horizontal>.ant-menu-submenu:hover,
+  .ant-menu-horizontal>.ant-menu-item-active,
+  .ant-menu-horizontal>.ant-menu-submenu-active,
+  .ant-menu-horizontal>.ant-menu-item-open,
+  .ant-menu-horizontal>.ant-menu-submenu-open,
+  .ant-menu-horizontal>.ant-menu-item-selected,
+  .ant-menu-horizontal>.ant-menu-submenu-selected,
+  .ant-menu-horizontal>.ant-menu-submenu {
+    border-bottom-width: 0px;
+  }
+  .ant-menu-vertical .ant-menu-item,
+  .ant-menu-vertical-left .ant-menu-item,
+  .ant-menu-vertical-right .ant-menu-item,
+  .ant-menu-inline .ant-menu-item,
+  .ant-menu-vertical .ant-menu-submenu-title,
+  .ant-menu-vertical-left .ant-menu-submenu-title,
+  .ant-menu-vertical-right .ant-menu-submenu-title,
+  .ant-menu-inline .ant-menu-submenu-title {
+    margin: 0;
   }
   .ant-layout-content {
     margin-top: 60px;
