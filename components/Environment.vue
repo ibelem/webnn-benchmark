@@ -10,11 +10,11 @@
     </div>
     <span
       v-if="cpuarchitecture"
-    >{{ cpuarchitecture.toUpperCase() }} {{ cpuhardwareconcurrency }} Cores /</span>
-    <span v-if="devicememory">{{ devicememory }} GB /</span>
+    >{{ cpuarchitecture.toUpperCase() }} {{ cpuhardwareconcurrency }} Cores </span>
+    <span v-if="devicememory">{{ devicememory }} GB </span>
     {{ gpu }}
-    <br>
-    {{ os }} {{ osversion }} {{ osplatform }} / {{ browsername }} {{ browserversion }}
+    <div class="ht" />
+    {{ os_browser }}
   </div>
 </template>
 
@@ -56,6 +56,13 @@ export default {
       browserversion: '',
       enginename: '',
       engineversion: ''
+    }
+  },
+  computed: {
+    os_browser: function() {
+      return `${this.os} ${this.osversion} ${this.osplatform} ${
+        this.browsername
+      } ${this.browserversion}`
     }
   },
   mounted: function() {
@@ -105,5 +112,15 @@ export default {
 
 .nocap {
   text-transform: none;
+}
+
+.ht {
+  display: none;
+}
+
+@media only screen and (max-width: 768px) {
+  .ht {
+    display: block;
+  }
 }
 </style>

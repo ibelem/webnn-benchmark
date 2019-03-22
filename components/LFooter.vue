@@ -1,7 +1,7 @@
 <template>
   <a-layout-footer>
     <footer>
-      <!-- <Connection /> -->
+      <Connection />
       <Badge />
       <Environment />
       <div>
@@ -13,13 +13,13 @@
 
 <script>
 import Environment from '~/components/Environment.vue'
-// import Connection from '~/components/Connection.vue'
+import Connection from '~/components/Connection.vue'
 import Badge from '~/components/Badge.vue'
 
 export default {
   components: {
     Environment,
-    // Connection,
+    Connection,
     Badge
   }
 }
@@ -30,6 +30,6 @@ export default {
   text-align: center;
 }
 .ant-layout-footer div {
-  margin-top: 1rem;
+  margin-top: 0rem;
 }
 </style>

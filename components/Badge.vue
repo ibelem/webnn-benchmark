@@ -1,15 +1,13 @@
 <template>
-  <div>
-    <div class="webnnbadge">
-      <div class="webnn-title">
-        WebNN API
-      </div>
-      <div v-if="isNN" class="webnn-status webnn-status-true">
-        <span>{{ $t('badge.s') }}</span>
-      </div>
-      <div v-else class="webnn-status webnn-status-false">
-        <span>{{ $t('badge.ns') }}</span>
-      </div>
+  <div class="webnnbadge">
+    <div class="webnn-title">
+      WebNN API
+    </div>
+    <div v-if="isNN" class="webnn-status webnn-status-true">
+      <span>{{ $t('badge.s') }}</span>
+    </div>
+    <div v-else class="webnn-status webnn-status-false">
+      <span>{{ $t('badge.ns') }}</span>
     </div>
   </div>
 </template>
@@ -50,6 +48,7 @@ export default {
   text-transform: uppercase;
   font-size: 0.75rem;
   letter-spacing: 0.1em;
+  margin-bottom: 1rem;
 }
 
 .webnn-title {
