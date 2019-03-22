@@ -1,6 +1,8 @@
 {
   "links": {
     "home": "主頁",
+    "intro": "概要",
+    "tests": "測試",
     "about": "關於",
     "english": "English",
     "chinese": "中文"

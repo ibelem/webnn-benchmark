@@ -2,10 +2,7 @@
   <a-layout id="components-layout-index-top" class="layout">
     <LHeader />
     <a-layout-content>
-      <div>
-        <h3 class="title">{{ $t('home.title') }}</h3>
-        <div class="subtitle">{{ $t('home.introduction') }}</div>
-      </div>
+      <Intro />
     </a-layout-content>
     <LFooter />
   </a-layout>
@@ -13,11 +10,13 @@
 
 <script>
 import LHeader from '~/components/LHeader.vue'
+import Intro from '~/components/Intro.vue'
 import LFooter from '~/components/LFooter.vue'
 
 export default {
   components: {
     LHeader,
+    Intro,
     LFooter
   },
   head() {

@@ -9,14 +9,19 @@
           {{ $t('links.home') }}
         </NuxtLink>
       </a-menu-item>
+      <a-menu-item key="intro">
+        <NuxtLink :to="$i18n.path('intro')">
+          {{ $t('links.intro') }}
+        </NuxtLink>
+      </a-menu-item>
       <a-menu-item key="benchmark" disabled>
         Benchmark
       </a-menu-item>
       <a-sub-menu>
         <span slot="title" class="submenu-title-wrapper">
-          Tests
+          {{ $t('links.tests') }}
         </span>
-        <a-menu-item-group title="TensorflowLite Format">
+        <a-menu-item-group title="TensorflowLite">
           <a-menu-item key="test:1">
             MobileNet v1
           </a-menu-item>
@@ -24,7 +29,7 @@
             MobileNet v2
           </a-menu-item>
         </a-menu-item-group>
-        <a-menu-item-group title="ONNX Format">
+        <a-menu-item-group title="ONNX">
           <a-menu-item key="test:3">
             SqueezeNet
           </a-menu-item>
