@@ -23,9 +23,6 @@ module.exports = {
     ]
   },
 
-  /*
-  ** Customize the progress-bar color
-  */
   loading: { color: '#fff' },
 
   router: {
@@ -36,42 +33,27 @@ module.exports = {
     routes: ['/', '/about', '/zh', '/zh/about']
   },
 
-  /*
-  ** Global CSS
-  */
   css: [
     { src: 'ant-design-vue/dist/antd.less', lang: 'less' },
     { src: '~/assets/css/main.css' }
   ],
 
-  /*
-  ** Plugins to load before mounting the App
-  */
-
   plugins: [{ src: '@/plugins/antd-ui', ssr: true }, '~/plugins/i18n.js'],
 
-  /*
-  ** Nuxt.js modules
-  */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/pwa'
   ],
-  /*
-  ** Axios module configuration
-  */
+
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
   },
 
-  /*
-  ** Build configuration
-  */
   build: {
     /*
-    ** You can extend webpack config here
-    */
+     ** You can extend webpack config here
+     */
     // vendor: ['@/assets/js/ua-parser.min.js', '@/assets/js/environment.js'],
     extend(config, ctx) {
       // Run ESLint on save

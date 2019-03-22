@@ -1,17 +1,21 @@
 <template>
   <div id="environment">
     <div
-      v-if="devicevendor.toString().length > 0 || devicemodel.toString().length > 0 || devicetype.toString().length > 0"
+      v-if="
+        devicevendor.toString().length > 0 ||
+          devicemodel.toString().length > 0 ||
+          devicetype.toString().length > 0
+      "
       id="device"
     >
       <span v-if="devicevendor">{{ devicevendor }}</span>
       <span v-if="devicemodel">{{ devicemodel }}</span>
       <span v-if="devicetype" class="cap">{{ devicetype }}</span>
     </div>
-    <span
-      v-if="cpuarchitecture"
-    >{{ cpuarchitecture.toUpperCase() }} {{ cpuhardwareconcurrency }} Cores </span>
-    <span v-if="devicememory">{{ devicememory }} GB </span>
+    <span v-if="cpuarchitecture">
+      {{ cpuarchitecture.toUpperCase() }} {{ cpuhardwareconcurrency }} Cores
+    </span>
+    <span v-if="devicememory">{{ devicememory }} GB</span>
     {{ gpu }}
     <div class="ht" />
     {{ os_browser }}

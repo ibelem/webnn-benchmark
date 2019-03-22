@@ -4,9 +4,7 @@
       <Connection />
       <Badge />
       <Environment />
-      <div>
-        &copy;2019 {{ $t('footer.name') }}
-      </div>
+      <div>&copy;2019 {{ $t('footer.name') }}</div>
     </footer>
   </a-layout-footer>
 </template>

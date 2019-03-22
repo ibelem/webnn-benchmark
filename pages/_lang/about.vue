@@ -8,9 +8,7 @@
         <a-breadcrumb-item>App</a-breadcrumb-item>
       </a-breadcrumb>
       <div :style="{ background: '#fff', padding: '24px', minHeight: '280px' }">
-        <h4 class="title">
-          {{ $t('about.title') }}
-        </h4>
+        <h4 class="title">{{ $t('about.title') }}</h4>
         <Logo />
       </div>
     </a-layout-content>
@@ -33,5 +31,4 @@ export default {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

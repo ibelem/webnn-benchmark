@@ -38,7 +38,7 @@
       </a-menu-item>
       <a-menu-item key="about">
         <NuxtLink :to="$i18n.path('about')">
-          {{ $t('links.about') }} 
+          {{ $t('links.about') }}
         </NuxtLink>
       </a-menu-item>
       <a-menu-item key="login">
@@ -73,5 +73,4 @@ export default {
 }
 </script>
 
-<style scope>
-</style>
+<style scope></style>

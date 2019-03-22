@@ -6,8 +6,8 @@
     "chinese": "中文"
   },
   "home": {
-    "title": "AIMark for WebNN",
-    "introduction": "AIMark for WebNN 基準測試用於測試神經網絡。"
+    "title": "AIMark for WebNN API",
+    "introduction": "AIMark for WebNN API 基準測試用於測試神經網絡。"
   },
   "about": {
     "title": "關於我們"

@@ -1,4 +1,4 @@
-# Web Neutral Network API (WebNN API) Benchmark
+# AIMark - Web Neutral Network API (WebNN API) Benchmark
 
 > The Web Neutral Network API (WebNN API) Benchmark consists of multiple AI tests performed by separate neural networks on your pc or smartphone browsers.
 
@@ -10,17 +10,20 @@ Before launching server, you need to download neutral network models. Please che
 
 ``` bash
 # install dependencies
-$ yarn install
+$ npm install
 
 # serve with hot reload at localhost:3000
-$ yarn run dev
+$ npm run dev
 
 # build for production and launch server
-$ yarn run build
-$ yarn start
+$ npm run build
+$ npm start
 
 # generate static project
-$ yarn run generate
-```
+$ npm run generate
 
+# code format
+$ npx prettier --write "**/*.vue"
+
+```
 > Test images credit: Commercial use & mods allowed from flickr.com

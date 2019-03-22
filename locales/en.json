@@ -6,8 +6,8 @@
     "chinese": "中文"
   },
   "home": {
-    "title": "AIMark for WebNN",
-    "introduction": "The AIMark for WebNN consists of multiple AI tests performed by separate neural networks on your pc or smartphone browsers"
+    "title": "AIMark for WebNN API",
+    "introduction": "The AIMark for WebNN API consists of multiple AI tests performed by separate neural networks on your pc or smartphone browsers"
   },
   "about": {
     "title": "About US"

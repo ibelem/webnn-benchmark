@@ -3,12 +3,8 @@
     <LHeader />
     <a-layout-content>
       <div>
-        <h3 class="title">
-          {{ $t('home.title') }}
-        </h3>
-        <h4 class="subtitle">
-          {{ $t('home.introduction') }}
-        </h4>
+        <h3 class="title">{{ $t('home.title') }}</h3>
+        <div class="subtitle">{{ $t('home.introduction') }}</div>
       </div>
     </a-layout-content>
     <LFooter />
