@@ -5,14 +5,9 @@
       <a-col
         v-for="l in imageClassificationModels"
         :key="l.modelFormatName"
-        :span="8"
+        :span="6"
       >
-        <a-card hoverable style="width: 300px">
-          <img
-            slot="cover"
-            alt="example"
-            src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-          />
+        <a-card hoverable style="width: 234px">
           <template slot="actions" class="ant-card-actions">
             <a class="card-footer-item" :href="l.paperUrl" title="View paper">
               <a-icon type="file-pdf" />
@@ -24,7 +19,11 @@
             >
               <a-icon type="project" />
             </a>
-            <a class="card-footer-item" :href="t" title="Run test">
+            <a
+              class="card-footer-item"
+              :href="$i18n.path('test')"
+              title="Run test"
+            >
               <a-icon type="right-circle" />
             </a>
           </template>
@@ -45,14 +44,9 @@
       <a-col
         v-for="l in objectDetectionModels"
         :key="l.modelFormatName"
-        :span="8"
+        :span="6"
       >
-        <a-card hoverable style="width: 300px">
-          <img
-            slot="cover"
-            alt="example"
-            src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-          />
+        <a-card hoverable style="width: 234px">
           <template slot="actions" class="ant-card-actions">
             <a class="card-footer-item" :href="l.paperUrl" title="View paper">
               <a-icon type="file-pdf" />
@@ -64,7 +58,11 @@
             >
               <a-icon type="project" />
             </a>
-            <a class="card-footer-item" :href="T" title="Run test">
+            <a
+              class="card-footer-item"
+              :href="$i18n.path('test')"
+              title="Run test"
+            >
               <a-icon type="right-circle" />
             </a>
           </template>
@@ -85,14 +83,9 @@
       <a-col
         v-for="l in semanticSegmentationModels"
         :key="l.modelFormatName"
-        :span="8"
+        :span="6"
       >
-        <a-card hoverable style="width: 300px">
-          <img
-            slot="cover"
-            alt="example"
-            src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-          />
+        <a-card hoverable style="width: 234px">
           <template slot="actions" class="ant-card-actions">
             <a class="card-footer-item" :href="l.paperUrl" title="View paper">
               <a-icon type="file-pdf" />
@@ -104,7 +97,11 @@
             >
               <a-icon type="project" />
             </a>
-            <a class="card-footer-item" :href="T" title="Run test">
+            <a
+              class="card-footer-item"
+              :href="$i18n.path('test')"
+              title="Run test"
+            >
               <a-icon type="right-circle" />
             </a>
           </template>
@@ -123,16 +120,11 @@
     <a-divider orientation="left">Skeleton Detection</a-divider>
     <a-row>
       <a-col
-        v-for="l in humanPoseEstimation"
+        v-for="l in humanPoseEstimationModels"
         :key="l.modelFormatName"
-        :span="8"
+        :span="6"
       >
-        <a-card hoverable style="width: 300px">
-          <img
-            slot="cover"
-            alt="example"
-            src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-          />
+        <a-card hoverable style="width: 234px">
           <template slot="actions" class="ant-card-actions">
             <a class="card-footer-item" :href="l.paperUrl" title="View paper">
               <a-icon type="file-pdf" />
@@ -144,7 +136,128 @@
             >
               <a-icon type="project" />
             </a>
-            <a class="card-footer-item" :href="T" title="Run test">
+            <a
+              class="card-footer-item"
+              :href="$i18n.path('test')"
+              title="Run test"
+            >
+              <a-icon type="right-circle" />
+            </a>
+          </template>
+          <a-card-meta :title="l.modelName" :description="l.intro">
+            <a-avatar
+              v-if="l.modelFormatName.indexOf('tflite') > -1"
+              slot="avatar"
+              src="../img/tf.png"
+            />
+            <a-avatar v-else slot="avatar" src="../img/onnx.png" />
+          </a-card-meta>
+        </a-card>
+      </a-col>
+    </a-row>
+
+    <a-divider orientation="left">Facial Landmark Detection A</a-divider>
+    <a-row>
+      <a-col
+        v-for="l in faceDetectionModels"
+        :key="l.modelFormatName"
+        :span="6"
+      >
+        <a-card hoverable style="width: 234px">
+          <template slot="actions" class="ant-card-actions">
+            <a class="card-footer-item" :href="l.paperUrl" title="View paper">
+              <a-icon type="file-pdf" />
+            </a>
+            <a
+              class="card-footer-item"
+              :href="l.modelFile"
+              title="Download model"
+            >
+              <a-icon type="project" />
+            </a>
+            <a
+              class="card-footer-item"
+              :href="$i18n.path('test')"
+              title="Run test"
+            >
+              <a-icon type="right-circle" />
+            </a>
+          </template>
+          <a-card-meta :title="l.modelName" :description="l.intro">
+            <a-avatar
+              v-if="l.modelFormatName.indexOf('tflite') > -1"
+              slot="avatar"
+              src="../img/tf.png"
+            />
+            <a-avatar v-else slot="avatar" src="../img/onnx.png" />
+          </a-card-meta>
+        </a-card>
+      </a-col>
+    </a-row>
+
+    <a-divider orientation="left">Facial Landmark Detection B</a-divider>
+    <a-row>
+      <a-col
+        v-for="l in facialLandmarkDetectionModels"
+        :key="l.modelFormatName"
+        :span="6"
+      >
+        <a-card hoverable style="width: 234px">
+          <template slot="actions" class="ant-card-actions">
+            <a class="card-footer-item" :href="l.paperUrl" title="View paper">
+              <a-icon type="file-pdf" />
+            </a>
+            <a
+              class="card-footer-item"
+              :href="l.modelFile"
+              title="Download model"
+            >
+              <a-icon type="project" />
+            </a>
+            <a
+              class="card-footer-item"
+              :href="$i18n.path('test')"
+              title="Run test"
+            >
+              <a-icon type="right-circle" />
+            </a>
+          </template>
+          <a-card-meta :title="l.modelName" :description="l.intro">
+            <a-avatar
+              v-if="l.modelFormatName.indexOf('tflite') > -1"
+              slot="avatar"
+              src="../img/tf.png"
+            />
+            <a-avatar v-else slot="avatar" src="../img/onnx.png" />
+          </a-card-meta>
+        </a-card>
+      </a-col>
+    </a-row>
+
+    <a-divider orientation="left">Super Resolution</a-divider>
+    <a-row>
+      <a-col
+        v-for="l in superResolutionModels"
+        :key="l.modelFormatName"
+        :span="6"
+      >
+        <a-card hoverable style="width: 234px">
+          <template slot="actions" class="ant-card-actions">
+            <a class="card-footer-item" :href="l.paperUrl" title="View paper">
+              <a-icon type="file-pdf" />
+            </a>
+            <a
+              class="card-footer-item"
+              :href="l.modelFile"
+              title="Download model"
+            >
+              <a-icon type="project" />
+            </a>
+            <a
+              class="card-footer-item"
+              :href="$i18n.path('test')"
+              title="Run test"
+            >
               <a-icon type="right-circle" />
             </a>
           </template>
@@ -178,8 +291,17 @@ export default {
     semanticSegmentationModels() {
       return this.$store.state.intro.semanticSegmentationModels
     },
-    humanPoseEstimation() {
-      return this.$store.state.intro.humanPoseEstimation
+    humanPoseEstimationModels() {
+      return this.$store.state.intro.humanPoseEstimationModels
+    },
+    faceDetectionModels() {
+      return this.$store.state.intro.faceDetectionModels
+    },
+    facialLandmarkDetectionModels() {
+      return this.$store.state.intro.facialLandmarkDetectionModels
+    },
+    superResolutionModels() {
+      return this.$store.state.intro.superResolutionModels
     }
   },
   methods: {}
