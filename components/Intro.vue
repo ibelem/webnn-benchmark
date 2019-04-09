@@ -7,7 +7,7 @@
         :key="l.modelFormatName"
         :span="6"
       >
-        <a-card hoverable style="width: 234px">
+        <a-card hoverable>
           <template slot="actions" class="ant-card-actions">
             <a class="card-footer-item" :href="l.paperUrl" title="View paper">
               <a-icon type="file-pdf" />
@@ -27,7 +27,10 @@
               <a-icon type="right-circle" />
             </a>
           </template>
-          <a-card-meta :title="l.modelName" :description="l.intro">
+          <a-card-meta
+            :title="l.modelName.replace('(TFLite)', '').replace('(ONNX)', '')"
+            :description="l.intro"
+          >
             <a-avatar
               v-if="l.modelFormatName.indexOf('tflite') > -1"
               slot="avatar"
@@ -46,7 +49,7 @@
         :key="l.modelFormatName"
         :span="6"
       >
-        <a-card hoverable style="width: 234px">
+        <a-card hoverable>
           <template slot="actions" class="ant-card-actions">
             <a class="card-footer-item" :href="l.paperUrl" title="View paper">
               <a-icon type="file-pdf" />
@@ -66,7 +69,10 @@
               <a-icon type="right-circle" />
             </a>
           </template>
-          <a-card-meta :title="l.modelName" :description="l.intro">
+          <a-card-meta
+            :title="l.modelName.replace('(TFLite)', '').replace('(ONNX)', '')"
+            :description="l.intro"
+          >
             <a-avatar
               v-if="l.modelFormatName.indexOf('tflite') > -1"
               slot="avatar"
@@ -85,7 +91,7 @@
         :key="l.modelFormatName"
         :span="6"
       >
-        <a-card hoverable style="width: 234px">
+        <a-card hoverable>
           <template slot="actions" class="ant-card-actions">
             <a class="card-footer-item" :href="l.paperUrl" title="View paper">
               <a-icon type="file-pdf" />
@@ -105,7 +111,10 @@
               <a-icon type="right-circle" />
             </a>
           </template>
-          <a-card-meta :title="l.modelName" :description="l.intro">
+          <a-card-meta
+            :title="l.modelName.replace('(TFLite)', '').replace('(ONNX)', '')"
+            :description="l.intro"
+          >
             <a-avatar
               v-if="l.modelFormatName.indexOf('tflite') > -1"
               slot="avatar"
@@ -124,7 +133,7 @@
         :key="l.modelFormatName"
         :span="6"
       >
-        <a-card hoverable style="width: 234px">
+        <a-card hoverable>
           <template slot="actions" class="ant-card-actions">
             <a class="card-footer-item" :href="l.paperUrl" title="View paper">
               <a-icon type="file-pdf" />
@@ -144,7 +153,10 @@
               <a-icon type="right-circle" />
             </a>
           </template>
-          <a-card-meta :title="l.modelName" :description="l.intro">
+          <a-card-meta
+            :title="l.modelName.replace('(TFLite)', '').replace('(ONNX)', '')"
+            :description="l.intro"
+          >
             <a-avatar
               v-if="l.modelFormatName.indexOf('tflite') > -1"
               slot="avatar"
@@ -163,7 +175,7 @@
         :key="l.modelFormatName"
         :span="6"
       >
-        <a-card hoverable style="width: 234px">
+        <a-card hoverable>
           <template slot="actions" class="ant-card-actions">
             <a class="card-footer-item" :href="l.paperUrl" title="View paper">
               <a-icon type="file-pdf" />
@@ -183,7 +195,10 @@
               <a-icon type="right-circle" />
             </a>
           </template>
-          <a-card-meta :title="l.modelName" :description="l.intro">
+          <a-card-meta
+            :title="l.modelName.replace('(TFLite)', '').replace('(ONNX)', '')"
+            :description="l.intro"
+          >
             <a-avatar
               v-if="l.modelFormatName.indexOf('tflite') > -1"
               slot="avatar"
@@ -202,7 +217,7 @@
         :key="l.modelFormatName"
         :span="6"
       >
-        <a-card hoverable style="width: 234px">
+        <a-card hoverable>
           <template slot="actions" class="ant-card-actions">
             <a class="card-footer-item" :href="l.paperUrl" title="View paper">
               <a-icon type="file-pdf" />
@@ -222,7 +237,10 @@
               <a-icon type="right-circle" />
             </a>
           </template>
-          <a-card-meta :title="l.modelName" :description="l.intro">
+          <a-card-meta
+            :title="l.modelName.replace('(TFLite)', '').replace('(ONNX)', '')"
+            :description="l.intro"
+          >
             <a-avatar
               v-if="l.modelFormatName.indexOf('tflite') > -1"
               slot="avatar"
@@ -241,7 +259,7 @@
         :key="l.modelFormatName"
         :span="6"
       >
-        <a-card hoverable style="width: 234px">
+        <a-card hoverable>
           <template slot="actions" class="ant-card-actions">
             <a class="card-footer-item" :href="l.paperUrl" title="View paper">
               <a-icon type="file-pdf" />
@@ -261,7 +279,10 @@
               <a-icon type="right-circle" />
             </a>
           </template>
-          <a-card-meta :title="l.modelName" :description="l.intro">
+          <a-card-meta
+            :title="l.modelName.replace('(TFLite)', '').replace('(ONNX)', '')"
+            :description="l.intro"
+          >
             <a-avatar
               v-if="l.modelFormatName.indexOf('tflite') > -1"
               slot="avatar"

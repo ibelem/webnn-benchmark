@@ -23,6 +23,9 @@ export default {
 </script>
 
 <style scoped>
+footer {
+  margin: 1rem 0;
+}
 .ant-layout-footer {
   text-align: center;
 }
