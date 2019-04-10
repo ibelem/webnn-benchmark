@@ -46,7 +46,7 @@ export default {
 .webnnbadge {
   display: inline-block;
   text-transform: uppercase;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   letter-spacing: 0.1em;
   margin-bottom: 1rem;
 }

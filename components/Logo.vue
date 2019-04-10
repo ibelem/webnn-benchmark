@@ -15,7 +15,7 @@
         <text
           id="jy5bLcyYi"
           class="aimark"
-          x="2.18"
+          x="0"
           y="23.37"
           font-size="49"
           font-family="Quicksand"
@@ -29,7 +29,7 @@
           dominant-baseline="text-before-edge"
         >
           <tspan
-            x="2.18"
+            x="0"
             dy="0em"
             alignment-baseline="before-edge"
             dominant-baseline="text-before-edge"
@@ -103,8 +103,9 @@
 </template>
 
 <style scope>
-svg {
-  float: left;
+#logosvg {
+  display: inline-block;
+  margin-top: 0.4rem;
 }
 
 svg .aimark {
@@ -143,6 +144,7 @@ svg rect {
   #logosvg {
     display: block;
     width: 160px;
+    margin-top: 2rem;
   }
 }
 </style>
