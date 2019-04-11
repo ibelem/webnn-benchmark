@@ -3,7 +3,7 @@
     <a-divider orientation="left">Image Classification</a-divider>
     <a-row>
       <a-col
-        v-for="l in imageClassificationModels"
+        v-for="l in this.$store.state.intro.imageClassificationModels"
         :key="l.modelFormatName"
         :span="6"
       >
@@ -21,7 +21,7 @@
             </a>
             <a
               class="card-footer-item"
-              :href="$i18n.path('test')"
+              :href="'image_classification/' + l.modelFormatName"
               title="Run test"
             >
               <a-icon type="right-circle" />
@@ -45,7 +45,7 @@
     <a-divider orientation="left">Person/Object Detection</a-divider>
     <a-row>
       <a-col
-        v-for="l in objectDetectionModels"
+        v-for="l in this.$store.state.intro.objectDetectionModels"
         :key="l.modelFormatName"
         :span="6"
       >
@@ -63,7 +63,7 @@
             </a>
             <a
               class="card-footer-item"
-              :href="$i18n.path('test')"
+              :href="'object_detection/' + l.modelFormatName"
               title="Run test"
             >
               <a-icon type="right-circle" />
@@ -87,7 +87,7 @@
     <a-divider orientation="left">Semantic Segmentation</a-divider>
     <a-row>
       <a-col
-        v-for="l in semanticSegmentationModels"
+        v-for="l in this.$store.state.intro.semanticSegmentationModels"
         :key="l.modelFormatName"
         :span="6"
       >
@@ -105,7 +105,7 @@
             </a>
             <a
               class="card-footer-item"
-              :href="$i18n.path('test')"
+              :href="'semantic_segmentation/' + l.modelFormatName"
               title="Run test"
             >
               <a-icon type="right-circle" />
@@ -129,7 +129,7 @@
     <a-divider orientation="left">Skeleton Detection</a-divider>
     <a-row>
       <a-col
-        v-for="l in humanPoseEstimationModels"
+        v-for="l in this.$store.state.intro.humanPoseEstimationModels"
         :key="l.modelFormatName"
         :span="6"
       >
@@ -147,7 +147,7 @@
             </a>
             <a
               class="card-footer-item"
-              :href="$i18n.path('test')"
+              :href="'skeleton_detection/' + l.modelFormatName"
               title="Run test"
             >
               <a-icon type="right-circle" />
@@ -171,7 +171,7 @@
     <a-divider orientation="left">Facial Landmark Detection A</a-divider>
     <a-row>
       <a-col
-        v-for="l in faceDetectionModels"
+        v-for="l in this.$store.state.intro.faceDetectionModels"
         :key="l.modelFormatName"
         :span="6"
       >
@@ -189,7 +189,7 @@
             </a>
             <a
               class="card-footer-item"
-              :href="$i18n.path('test')"
+              :href="'facial_landmark_detection/' + l.modelFormatName"
               title="Run test"
             >
               <a-icon type="right-circle" />
@@ -213,7 +213,7 @@
     <a-divider orientation="left">Facial Landmark Detection B</a-divider>
     <a-row>
       <a-col
-        v-for="l in facialLandmarkDetectionModels"
+        v-for="l in this.$store.state.intro.facialLandmarkDetectionModels"
         :key="l.modelFormatName"
         :span="6"
       >
@@ -231,7 +231,7 @@
             </a>
             <a
               class="card-footer-item"
-              :href="$i18n.path('test')"
+              :href="'facial_landmark_detection/' + l.modelFormatName"
               title="Run test"
             >
               <a-icon type="right-circle" />
@@ -255,7 +255,7 @@
     <a-divider orientation="left">Super Resolution</a-divider>
     <a-row>
       <a-col
-        v-for="l in superResolutionModels"
+        v-for="l in this.$store.state.intro.superResolutionModels"
         :key="l.modelFormatName"
         :span="6"
       >
@@ -273,7 +273,7 @@
             </a>
             <a
               class="card-footer-item"
-              :href="$i18n.path('test')"
+              :href="'super_resolution/' + l.modelFormatName"
               title="Run test"
             >
               <a-icon type="right-circle" />
@@ -302,29 +302,7 @@ export default {
   data() {
     return {}
   },
-  computed: {
-    imageClassificationModels() {
-      return this.$store.state.intro.imageClassificationModels
-    },
-    objectDetectionModels() {
-      return this.$store.state.intro.objectDetectionModels
-    },
-    semanticSegmentationModels() {
-      return this.$store.state.intro.semanticSegmentationModels
-    },
-    humanPoseEstimationModels() {
-      return this.$store.state.intro.humanPoseEstimationModels
-    },
-    faceDetectionModels() {
-      return this.$store.state.intro.faceDetectionModels
-    },
-    facialLandmarkDetectionModels() {
-      return this.$store.state.intro.facialLandmarkDetectionModels
-    },
-    superResolutionModels() {
-      return this.$store.state.intro.superResolutionModels
-    }
-  },
+  computed: {},
   methods: {}
 }
 </script>

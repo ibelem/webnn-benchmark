@@ -21,22 +21,74 @@
         <span slot="title" class="submenu-title-wrapper">
           {{ $t('links.tests') }}
         </span>
-        <a-menu-item-group title="TensorflowLite">
-          <a-menu-item key="test:1">
-            MobileNet v1
+
+        <a-sub-menu title="Image Classification">
+          <a-menu-item
+            v-for="l in this.$store.state.intro.imageClassificationModels"
+            :key="l.modelFormatName"
+          >
+            <nuxt-link :to="'../image_classification/' + l.modelFormatName">
+              {{ l.modelName }}
+            </nuxt-link>
           </a-menu-item>
-          <a-menu-item key="test:2">
-            MobileNet v2
+        </a-sub-menu>
+
+        <a-sub-menu title="Object Detection">
+          <a-menu-item
+            v-for="l in this.$store.state.intro.objectDetectionModels"
+            :key="l.modelFormatName"
+          >
+            <nuxt-link :to="'../object_detection/' + l.modelFormatName">
+              {{ l.modelName }}
+            </nuxt-link>
           </a-menu-item>
-        </a-menu-item-group>
-        <a-menu-item-group title="ONNX">
-          <a-menu-item key="test:3">
-            SqueezeNet
+        </a-sub-menu>
+
+        <a-sub-menu title="Semantic Segmentation">
+          <a-menu-item
+            v-for="l in this.$store.state.intro.semanticSegmentationModels"
+            :key="l.modelFormatName"
+          >
+            <nuxt-link :to="'../semantic_segmentation/' + l.modelFormatName">
+              {{ l.modelName }}
+            </nuxt-link>
           </a-menu-item>
-          <a-menu-item key="test:4">
-            Option 4
+        </a-sub-menu>
+
+        <a-sub-menu title="Skeleton Detection">
+          <a-menu-item
+            v-for="l in this.$store.state.intro.humanPoseEstimationModels"
+            :key="l.modelFormatName"
+          >
+            <nuxt-link :to="'../skeleton_detection/' + l.modelFormatName">
+              {{ l.modelName }}
+            </nuxt-link>
           </a-menu-item>
-        </a-menu-item-group>
+        </a-sub-menu>
+
+        <a-sub-menu title="Facial Landmark Detection">
+          <a-menu-item
+            v-for="l in this.$store.state.intro.faceDetectionModels"
+            :key="l.modelFormatName"
+          >
+            <nuxt-link
+              :to="'../facial_landmark_detection/' + l.modelFormatName"
+            >
+              {{ l.modelName }}
+            </nuxt-link>
+          </a-menu-item>
+        </a-sub-menu>
+
+        <a-sub-menu title="Super Resolution">
+          <a-menu-item
+            v-for="l in this.$store.state.intro.superResolutionModels"
+            :key="l.modelFormatName"
+          >
+            <nuxt-link :to="'../super_resolution/' + l.modelFormatName">
+              {{ l.modelName }}
+            </nuxt-link>
+          </a-menu-item>
+        </a-sub-menu>
       </a-sub-menu>
       <a-menu-item key="ranking" disabled>
         Ranking
@@ -72,9 +124,34 @@ export default {
   },
   data() {
     return {
-      current: ['home']
+      current: ['home'],
+      tests: ''
     }
-  }
+  },
+  computed: {
+    imageClassificationModels() {
+      return this.$store.state.intro.imageClassificationModels
+    },
+    objectDetectionModels() {
+      return this.$store.state.intro.objectDetectionModels
+    },
+    semanticSegmentationModels() {
+      return this.$store.state.intro.semanticSegmentationModels
+    },
+    humanPoseEstimationModels() {
+      return this.$store.state.intro.humanPoseEstimationModels
+    },
+    faceDetectionModels() {
+      return this.$store.state.intro.faceDetectionModels
+    },
+    facialLandmarkDetectionModels() {
+      return this.$store.state.intro.facialLandmarkDetectionModels
+    },
+    superResolutionModels() {
+      return this.$store.state.intro.superResolutionModels
+    }
+  },
+  mounted() {}
 }
 </script>
 
