@@ -1,5 +1,13 @@
 # Created by .ignore support plugin (hsz.mobi)
 ### Node template
+node_modules/
+dist/
+**/*.tflite
+**/*.onnx
+src/nn/wasm/src/build
+.DS_Store
+
+
 # Logs
 logs
 *.log
