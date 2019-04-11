@@ -4,7 +4,7 @@
     "tests": "Tests",
     "about": "About",
     "english": "English",
-    "chinese": "中文"
+    "chinese": "簡體"
   },
   "home": {
     "title": "AIMark for WebNN API",
