@@ -2,7 +2,7 @@
   <a-layout id="components-layout-index-top" class="layout">
     <LHeader />
     <a-layout-content>
-      <Intro />
+      <Tests />
     </a-layout-content>
     <LFooter />
   </a-layout>
@@ -10,13 +10,13 @@
 
 <script>
 import LHeader from '~/components/LHeader.vue'
-import Intro from '~/components/Intro.vue'
+import Tests from '~/components/Tests.vue'
 import LFooter from '~/components/LFooter.vue'
 
 export default {
   components: {
     LHeader,
-    Intro,
+    Tests,
     LFooter
   },
   head() {

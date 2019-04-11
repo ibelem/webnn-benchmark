@@ -9,18 +9,17 @@
           {{ $t('links.home') }}
         </NuxtLink>
       </a-menu-item>
-      <a-menu-item key="intro">
-        <NuxtLink :to="$i18n.path('intro')">
-          {{ $t('links.intro') }}
-        </NuxtLink>
-      </a-menu-item>
       <a-menu-item key="benchmark" disabled>
         Benchmark
       </a-menu-item>
       <a-sub-menu>
-        <span slot="title" class="submenu-title-wrapper">
+        <NuxtLink
+          slot="title"
+          :to="$i18n.path('tests')"
+          class="submenu-title-wrapper"
+        >
           {{ $t('links.tests') }}
-        </span>
+        </NuxtLink>
 
         <a-sub-menu title="Image Classification">
           <a-menu-item
