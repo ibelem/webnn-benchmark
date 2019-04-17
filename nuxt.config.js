@@ -55,17 +55,17 @@ module.exports = {
      ** You can extend webpack config here
      */
     // vendor: ['@/assets/js/ua-parser.min.js', '@/assets/js/environment.js'],
-    extend(config, ctx) {
-      // Run ESLint on save
-      if (ctx.isDev && ctx.isClient) {
-        config.module.rules.push({
-          enforce: 'pre',
-          test: /\.(js|vue)$/,
-          loader: 'eslint-loader',
-          exclude: /(node_modules)/
-        })
-      }
-    },
+    // extend(config, ctx) {
+    //   // Run ESLint on save
+    //   if (ctx.isDev && ctx.isClient) {
+    //     config.module.rules.push({
+    //       enforce: 'pre',
+    //       test: /\.(js|vue)$/,
+    //       loader: 'eslint-loader',
+    //       exclude: /(node_modules)/
+    //     })
+    //   }
+    // },
     loaders: {
       less: {
         javascriptEnabled: true,

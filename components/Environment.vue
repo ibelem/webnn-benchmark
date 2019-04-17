@@ -105,7 +105,8 @@ export default {
 
 <style scoped>
 #environment {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
+  margin-bottom: 0.4rem;
 }
 #device {
   display: inline;

@@ -80,6 +80,10 @@
   width: 24.6%;
 }
 
+.ant-btn {
+  border-radius: 0px;
+}
+
 @media screen and (min-width: 1280px) {
   .ant-layout {
     max-width: 1152px;
@@ -157,3 +161,119 @@
   }
 }
 
+.progress {
+  height: 2px !important;
+  background-color: red;
+}
+ 
+#testimage,
+.is {
+  width: 224px;
+  height: 224px !important;
+}
+
+.testimage {
+  width: 224px;
+  height: 224px;
+  display: none !important;
+}
+
+#log {
+  height: 224px;
+  max-height: 224px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  padding: 1rem;
+  border: 1px solid #d9d9d9;
+  box-shadow: 0 2px 3px hsla(0,0%,4%,.01), 0 0 0 1px hsla(0,0%,4%,.01);
+  text-align: left;
+  font-size: 0.8rem;
+}
+
+.btnlog {
+  text-align: right;
+}
+
+.btnlog button {
+  margin-top: -1px;
+}
+
+.cmh,
+.cmh canvas {
+  max-height: 380px !important;
+}
+
+ ::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+ ::-webkit-scrollbar-track-piece {
+  background-color: rgba(0, 0, 0, 0.2);
+  -webkit-border-radius: 6px;
+}
+
+ ::-webkit-scrollbar-thumb:vertical {
+  height: 5px;
+  background-color: rgba(125, 125, 125, 0.7);
+  -webkit-border-radius: 6px;
+}
+
+ ::-webkit-scrollbar-thumb:horizontal {
+  width: 5px;
+  background-color: rgba(125, 125, 125, 0.7);
+  -webkit-border-radius: 6px;
+}
+
+.run {
+  margin: 1rem auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.runfullwidth, .runhalfwidth, .runlog, .runbtn {
+  text-align: center;
+}
+
+.runfullwidth {
+  display: block;
+  width: 100%;
+}
+
+.runhalfwidth {
+  display: block;
+  width: 50%;
+}
+
+@media (max-width: 768px) {
+  #testimage,
+  .is {
+    width: 224px;
+    height: 224px !important;
+  }
+  .testimage {
+    width: 224px;
+    height: 224px;
+    display: none !important;
+  }
+
+  .run {
+    margin: 1rem auto;
+    display: block;
+  }
+
+  .runhalfwidth {
+    display: block;
+    width: 100% !important;
+  }
+
+  #log {
+    height: 112px;
+  }
+
+  .cmh,
+  .cmh canvas {
+    max-height: 320px !important;
+  }
+}
