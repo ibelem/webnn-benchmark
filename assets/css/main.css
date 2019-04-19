@@ -243,7 +243,7 @@
 
 .runhalfwidth {
   display: block;
-  width: 50%;
+  width: 48%;
 }
 
 @media (max-width: 768px) {
@@ -276,4 +276,8 @@
   .cmh canvas {
     max-height: 320px !important;
   }
+}
+
+.ant-progress-bg {
+  height: 1px !important;
 }

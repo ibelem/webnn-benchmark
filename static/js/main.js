@@ -738,28 +738,7 @@ function getModelDicItem(modelFormatName) {
 }
 
 function getSelectedOps() {
-  return getPreferString() === 'none'
-    ? new Set()
-    : new Set(
-        Array.from(
-          document.querySelectorAll('input[name=supportedOp]:checked')
-        ).map(x => parseInt(x.value))
-      )
-}
-
-function updateOpsSelect() {
-  const backend = JSON.parse(configurations.value).backend
-  const prefer = preferSelect.value
-  if (backend !== 'native' && prefer !== 'none') {
-    // hybrid mode
-    document.getElementById('supported-ops-select').style.visibility = 'visible'
-  } else if (backend === 'WebML' && prefer === 'none') {
-    throw new Error('No backend selected')
-  } else {
-    // solo mode
-    document.getElementById('supported-ops-select').style.visibility = 'hidden'
-  }
-  supportedOps = getSelectedOps()
+  // todo
 }
 
 class Logger {
@@ -790,7 +769,7 @@ class Logger {
 }
 
 class LoggerHTML {
-  constructor() {}
+  constructor() { }
   add(message) {
     finallog = finallog + message + '<br>'
   }
@@ -804,8 +783,8 @@ class LoggerHTML {
 const lh = new LoggerHTML()
 
 let finallog = ''
-const modelprogress = 0
-const probability = null
+let modelprogress = 0
+let probability = null
 let currentinference
 let posenetbase64
 let nalabel
@@ -817,6 +796,7 @@ class Benchmark {
   }
   async runAsync(configuration) {
     this.configuration = configuration
+    console.log(configuration)
     await this.setupAsync()
     const results = await this.executeAsync()
     await this.finalizeAsync()
@@ -852,13 +832,14 @@ class Benchmark {
   }
 
   async executeAsync() {
-    const computeResults = []
-    const decodeResults = []
+    let computeResults = []
+    let decodeResults = []
     const modelName = this.configuration.modelName
     if (
       tfliteModelArray.indexOf(modelName) !== -1 ||
       onnxModelArray.indexOf(modelName) !== -1
     ) {
+      console.log('***************' + modelName)
       for (let i = 0; i < this.configuration.iteration; i++) {
         this.onExecuteSingle(i)
         await new Promise(resolve => requestAnimationFrame(resolve))
@@ -1031,7 +1012,7 @@ class Benchmark {
    * Finalize
    * @returns {Promise<void>}
    */
-  async finalizeAsync() {}
+  async finalizeAsync() { }
   summarize(results) {
     if (results.length !== 0) {
       results.shift() // remove first run, which is regarded as "warming up" execution
@@ -1060,7 +1041,7 @@ class Benchmark {
       return null
     }
   }
-  onExecuteSingle(iteration) {}
+  onExecuteSingle(iteration) { }
 }
 class WebMLJSBenchmark extends Benchmark {
   constructor() {
@@ -1099,23 +1080,28 @@ class WebMLJSBenchmark extends Benchmark {
     this.labels = null
   }
   async loadModelAndLabels(model) {
-    const url = '../examples/util/'
-    const arrayBuffer = await this.loadUrl(url + model.modelFile, true)
+    const arrayBuffer = await this.loadUrl(model.modelFile, true)
     const bytes = new Uint8Array(arrayBuffer)
-    const text = await this.loadUrl(url + model.labelsFile)
+    const text = await this.loadUrl(model.labelsFile)
     return {
       bytes: bytes,
       text: text
     }
   }
-  async loadUrl(url, binary) {
+  loadUrl(url, binary) {
     return new Promise((resolve, reject) => {
       const request = new XMLHttpRequest()
       request.open('GET', url, true)
       if (binary) {
         request.responseType = 'arraybuffer'
       }
-      request.onload = function(ev) {
+      request.addEventListener("progress", function (evt) {
+        if (evt.lengthComputable) {
+          const percentComplete = evt.loaded / evt.total
+          modelprogress = percentComplete
+        }
+      }, false)
+      request.onload = function (ev) {
         if (request.readyState === 4) {
           if (request.status === 200) {
             resolve(request.response)
@@ -1136,6 +1122,9 @@ class WebMLJSBenchmark extends Benchmark {
 
     const configModelName = this.configuration.modelName
     const currentModel = getModelDicItem(configModelName)
+
+    console.log(this.configuration.modelName)
+    console.log(currentModel)
 
     let width = currentModel.inputSize[1]
     let height = currentModel.inputSize[0]
@@ -1317,9 +1306,9 @@ class WebMLJSBenchmark extends Benchmark {
           for (let c = 0; c < channels; ++c) {
             const value =
               pixels[
-                y * width * imageChannels +
-                  x * imageChannels +
-                  (channels - c - 1)
+              y * width * imageChannels +
+              x * imageChannels +
+              (channels - c - 1)
               ]
             this.inputTensor[y * width * channels + x * channels + c] =
               (value - mean[c]) / std[c]
@@ -1405,6 +1394,7 @@ class WebMLJSBenchmark extends Benchmark {
     await this.setInputOutput()
     const backend = this.configuration.backend.replace('native', 'WebML')
     const modelName = this.configuration.modelName
+    const prefer = this.configuration.prefer
     if (tfliteModelArray.indexOf(modelName) !== -1) {
       const model = getModelDicItem(modelName)
       const resultTflite = await this.loadModelAndLabels(model)
@@ -1415,7 +1405,7 @@ class WebMLJSBenchmark extends Benchmark {
       const kwargs = {
         rawModel: rawModel,
         backend: backend,
-        prefer: getPreferString(),
+        prefer: prefer,
         softmax: postOptions.softmax || false
       }
       this.model = new TFliteModelImporter(kwargs)
@@ -1433,7 +1423,7 @@ class WebMLJSBenchmark extends Benchmark {
       const kwargs = {
         rawModel: rawModel,
         backend: backend,
-        prefer: getPreferString(),
+        prefer: prefer,
         softmax: postOptions.softmax || false
       }
       this.model = new OnnxModelImporter(kwargs)
@@ -1446,7 +1436,7 @@ class WebMLJSBenchmark extends Benchmark {
       const kwargs = {
         rawModel: rawModel,
         backend: backend,
-        prefer: getPreferString()
+        prefer: prefer
       }
       this.model = new TFliteModelImporter(kwargs)
     } else if (modelName === 'posenet') {
@@ -1463,7 +1453,7 @@ class WebMLJSBenchmark extends Benchmark {
         smType,
         cacheMap,
         backend,
-        getPreferString()
+        prefer
       )
     } else if (segmentationModelArray.indexOf(modelName) !== -1) {
       const model = getModelDicItem(modelName)
@@ -1474,14 +1464,15 @@ class WebMLJSBenchmark extends Benchmark {
       const kwargs = {
         rawModel: rawModel,
         backend: backend,
-        prefer: getPreferString()
+        prefer: prefer
       }
       this.model = new TFliteModelImporter(kwargs)
     }
-    supportedOps = getSelectedOps()
+    let supportedOps = getSelectedOps()
     await this.model.createCompiledModel()
   }
   printPredictResult() {
+    probability = null
     const probs = Array.from(this.outputTensor)
     const indexes = probs.map((prob, index) => [prob, index])
     const sorted = indexes.sort((a, b) => {
@@ -1499,6 +1490,12 @@ class WebMLJSBenchmark extends Benchmark {
           (sorted[i][0] - this.deQuantizeParams[0].zeroPoint)
       } else {
         prob = sorted[i][0]
+        const index = sorted[i][1]
+        lh.add(`&nbsp;&nbsp;&nbsp;&nbsp; Label: ${this.labels[index]}, probability: ${(prob * 100).toFixed(2)}%`)
+        if (i == 0) {
+          probability = `${this.labels[index]}, ${(prob * 100).toFixed(2)}%`
+          currentinference = probability
+        }
       }
       const index = sorted[i][1]
       console.log(
@@ -1556,12 +1553,12 @@ const BenchmarkClass = {
   'WebML API': WebMLJSBenchmark
 }
 
-const testresult = []
-const bardata = []
+let testresult = []
+let bardata = []
 
-const bar1 = []
-const bar2 = []
-const bar3 = []
+let bar1 = []
+let bar2 = []
+let bar3 = []
 
 async function run(configuration) {
   const logger = new Logger()
@@ -1576,15 +1573,15 @@ async function run(configuration) {
     logger.groupEnd()
 
     logger.group('Configuration')
-    lh.add('<i class="mdi mdi-coffee-outline mdi-12px"></i> Configuration')
+    lh.add('Configuration')
     Object.keys(configuration).forEach(key => {
-      if (key === 'backend' && configuration[key] === 'native') {
-        logger.log(`${key.padStart(12)}: ${getNativeAPI()}`)
-        lh.add(`${key.padStart(12)}: ${getNativeAPI()}`)
+      if (key === 'backend') {
+        logger.log(`${key.padStart(12)}: ${configuration[key]}`)
+        lh.add(`${key.padStart(12)}: ${configuration[key]}`)
       } else {
         logger.log(`${key.padStart(12)}: ${configuration[key]}`)
         lh.add(
-          `&nbsp;&nbsp; <i class="mdi mdi-bookmark-plus-outline mdi-12px"></i> ${key.padStart(
+          `&nbsp;&nbsp;${key.padStart(
             12
           )}: ${configuration[key]}`
         )
@@ -1593,34 +1590,33 @@ async function run(configuration) {
     logger.groupEnd()
     lh.add(`<div></div>`)
     logger.group('Run')
-    lh.add(`<i class="mdi mdi-coffee-outline mdi-12px"></i> Run`)
-
+    lh.add(`Run`)
     const benchmark = new BenchmarkClass[configuration.framework]()
+    console.log(benchmark)
     benchmark.onExecuteSingle = i => {
       logger.log(`Iteration: ${i + 1} / ${configuration.iteration}`)
       lh.add(
-        `&nbsp;&nbsp; <i class="mdi mdi-checkbox-blank-circle-outline mdi-12px"></i> Iteration: ${i +
-          1} / ${configuration.iteration}`
+        `&nbsp;&nbsp; Iteration: ${i + 1} / ${configuration.iteration}`
       )
     }
     const summary = await benchmark.runAsync(configuration)
     logger.groupEnd()
     lh.add(`<div></div>`)
     logger.group('Result')
-    lh.add(`<i class="mdi mdi-coffee-outline mdi-12px"></i> Result`)
+    lh.add(`Result`)
 
     logger.log(
       `[${configuration.modelName} + ${
-        configuration.backend
+      configuration.backend
       }] Elapsed time: ${summary.computeResults.mean.toFixed(
         2
       )}+-${summary.computeResults.std.toFixed(2)} [ms]`
     )
     lh.add(
-      `&nbsp;&nbsp; <i class="mdi mdi-checkbox-marked-circle-outline mdi-12px"></i> [${
-        configuration.modelName
+      `&nbsp;&nbsp; [${
+      configuration.modelName
       } + ${
-        configuration.backend
+      configuration.backend
       }] Elapsed time: ${summary.computeResults.mean.toFixed(
         2
       )}+-${summary.computeResults.std.toFixed(2)} [ms]`
@@ -1629,16 +1625,16 @@ async function run(configuration) {
     if (summary.decodeResults !== null) {
       logger.log(
         `[${configuration.modelName} + ${
-          configuration.backend
+        configuration.backend
         }] Decode time: ${summary.decodeResults.mean.toFixed(
           2
         )}+-${summary.decodeResults.std.toFixed(2)} [ms]`
       )
       lh.add(
-        `&nbsp;&nbsp; <i class="mdi mdi-checkbox-marked-circle-outline mdi-12px"></i> [${
-          configuration.modelName
+        `&nbsp;&nbsp; [${
+        configuration.modelName
         } + ${
-          configuration.backend
+        configuration.backend
         }] Decode time: ${summary.decodeResults.mean.toFixed(
           2
         )}+-${summary.decodeResults.std.toFixed(2)} [ms]`
@@ -1651,6 +1647,7 @@ async function run(configuration) {
     d.model = configuration.modelName
     d.model_version = configuration.modelVersion
     d.backend = configuration.backend
+    d.prefer = configuration.prefer
     d.test_case = configuration.image.split('/').pop()
     d.test_result = summary.computeResults.mean.toFixed(2)
     if (summary.decodeResults !== null) {
@@ -1669,7 +1666,7 @@ async function run(configuration) {
       case 'wasm':
         bar1.push(d.test_result)
         break
-      case 'webgl2':
+      case 'webgl':
         bar2.push(d.test_result)
         break
       case 'webml':
@@ -1679,8 +1676,8 @@ async function run(configuration) {
   } catch (err) {
     logger.error(err)
     lh.add(
-      `&nbsp;&nbsp; <i class="mdi mdi-close-circle-outline mdi-12px"></i> [${
-        configuration.modelName
+      `&nbsp;&nbsp; [${
+      configuration.modelName
       } + ${configuration.backend}] ` + err
     )
 
@@ -1706,7 +1703,7 @@ async function run(configuration) {
       case 'wasm':
         bar1.push(0)
         break
-      case 'webgl2':
+      case 'webgl':
         bar2.push(0)
         break
       case 'webml':
@@ -1717,9 +1714,11 @@ async function run(configuration) {
   logger.groupEnd()
   lh.fill()
 
-  if (location.pathname.indexOf('benchmark') < 0 && testresult.length > 9) {
-    testresult = testresult.slice(9)
-  }
+  // if (location.pathname.indexOf('benchmark') < 0 && testresult.length > 9) {
+  //   testresult = testresult.slice(9)
+  // }
+
+  console.log('>>>>>>>>' + testresult)
 }
 
 export {

@@ -1,118 +1,48 @@
 <template>
   <a-layout id="components-layout-test-top" class="layout">
-    <LHeader />
-    <MacSwitcher />
+    <LHeader/>
+    <MacSwitcher/>
     <a-layout-content>
-      <div class="">
-        <h2 class="">
-          {{ task.name }}
-        </h2>
+      <div class>
+        <h2 class>{{ parameter }}</h2>
 
-        <div class="">{{ task.description }}</div>
+        <div class>{{ task.description }}</div>
 
-        <div v-if="getBackend" class="">
-          <div v-if="task.model_version">
-            Model Version: {{ task.model_version }}
-          </div>
+        <div v-if="getBackend" class>
+          <div v-if="task.model_version">Model Version: {{ task.model_version }}</div>
           <div class="run">
             <div class="runhalfwidth">
               <div class>Loading Model File: {{ progress_loading_text }}</div>
-              <progress
-                class=""
-                :value="progress_loading.value"
-                :max="progress_loading.max"
-              >
-                {{ progress_loading_text }}
-              </progress>
+              <a-progress :percent="progress_loading_percent"/>
             </div>
             <div class="runhalfwidth">
               <div class>Run Model with Tests: {{ progress_text }}</div>
-              <progress class="" :value="progress.value" :max="progress.max">
-                {{ progress_text }}
-              </progress>
+              <a-progress :percent="progress_percent"/>
             </div>
           </div>
         </div>
 
         <div class="run">
           <div v-show="getTestImage" class="runhalfwidth">
-            <img id="testimage" :src="getTestImage" alt="Test Image" />
+            <img id="testimage" :src="getTestImage" alt="Test Image">
             <canvas class="testimage"></canvas>
-            <div class="inference_label">
-              {{ currentinference }}
-            </div>
+            <div class="inference_label">{{ currentinference }}</div>
           </div>
           <div v-show="getBackend" class="runlog runhalfwidth">
-            <div id="log" class="" v-html="log"></div>
+            <div id="log" class v-html="log"></div>
             <div class="btnlog">
-              <a-button
-                id="btnlog"
-                data-clipboard-target="#log"
-                @click="copylog"
-              >
-                Copy Log
-              </a-button>
+              <a-button id="btnlog" data-clipboard-target="#log" @click="copylog">Copy Log</a-button>
             </div>
           </div>
         </div>
-        <div v-if="showBar" class="">
-          <div class="">
-            <div class="">
-              <b-table
-                :data="test_result"
-                :bordered="false"
-                :striped="true"
-                :narrowed="false"
-                :hoverable="true"
-                :loading="false"
-                :focusable="true"
-                :mobile-cards="true"
-              >
-                <template slot-scope="props">
-                  <b-table-column field="backend" label="Backend">
-                    {{ props.row.backend }}
-                  </b-table-column>
-
-                  <b-table-column field="test_image" label="Test Image">
-                    {{ props.row.test_case }}
-                  </b-table-column>
-
-                  <b-table-column
-                    field="best_probability"
-                    label="Best Probability"
-                  >
-                    {{ props.row.probability }}
-                  </b-table-column>
-
-                  <b-table-column field="test_result" label="Inference Time">
-                    {{ props.row.test_result }} ms
-                  </b-table-column>
-                </template>
-
-                <template slot="">
-                  <section class="">
-                    <div class="">
-                      <p>
-                        <b-icon icon="emoticon-sad" size="is-large"></b-icon>
-                      </p>
-                      <p>Nothing here.</p>
-                    </div>
-                  </section>
-                </template>
-              </b-table>
-              <div class="">
-                {{ nalabel }}
-              </div>
-            </div>
+        <div v-if="showBar" class>
+          <div class>
+              <a-table :columns="columns" :data-source="test_result" size="small"/>
+              <div class>{{ nalabel }}</div>
           </div>
-          <div class="">
+          <div class>
             <div class="bar-chart">
-              <ve-histogram
-                v-if="showBar"
-                :data="barData"
-                :settings="chartSettings"
-                class="cmh"
-              ></ve-histogram>
+              <ve-histogram v-if="showBar" :data="barData" :settings="chartSettings" class="cmh"></ve-histogram>
             </div>
           </div>
         </div>
@@ -121,7 +51,7 @@
         </div>
       </div>
     </a-layout-content>
-    <LFooter />
+    <LFooter/>
   </a-layout>
 </template>
 
@@ -142,12 +72,34 @@ import {
   // clearModelArrayBuffer
 } from '~/static/js/main.js'
 
+const columns = [
+  {
+    title: 'Backend',
+    dataIndex: 'backend'
+  },
+  {
+    title: 'Prefer',
+    dataIndex: 'prefer'
+  },
+  {
+    title: 'Test',
+    dataIndex: 'test_case'
+  },
+  {
+    title: 'Probability',
+    dataIndex: 'probability'
+  },
+  {
+    title: 'Inference Time (ms)',
+    dataIndex: 'test_result'
+  }
+]
+
 export default {
   name: 'Mobilenet',
   components: {
     LHeader,
     LFooter,
-    ClipboardJS,
     MacSwitcher
   },
   head: {
@@ -196,7 +148,7 @@ export default {
         showLine: ['Probability']
       },
       barData: {
-        columns: ['Test Image', 'WASM Polyfill', 'WebGL2 Polyfill', 'WebML'],
+        columns: ['Test Image', 'WASM Polyfill', 'WebGL Polyfill', 'WebML'],
         rows: [
           {
             'Test Image': 'bee_eater.jpg',
@@ -214,18 +166,20 @@ export default {
         value: 0,
         max: 1
       },
+      columns,
       test_result: [],
       log: null,
       getBackend: '',
       getTestImage: '',
       task: {
         id: 1,
-        model_name: 'MobileNet',
-        backend: ['WASM', 'WebGL2', 'WebML'],
+        model_format_name: 'mobilenet_v1_tflite',
+        backend: ['WASM', 'WebGL'],
+        prefer: ['sustained'],
         iteration: 4,
         framework: 'webml-polyfill.js',
-        model: '../model/mobilenet/mobilenet_v1_1.0_224.tflite',
-        label: '../model/mobilenet/labels.txt',
+        model: '../image_classification/model/mobilenet_v1_1.0_224.tflite',
+        label: '../image_classification/model/labels.txt',
         // "model": 'https://aimark.nos-eastchina1.126.net/model/mobilenet/mobilenet_v1_1.0_224.tflite',
         // "label": 'https://aimark.nos-eastchina1.126.net/model/mobilenet/labels.txt',
         name: 'Image Classification (MobileNet V1)',
@@ -250,14 +204,28 @@ export default {
   },
   computed: {
     progress_text: function() {
-      return ((this.progress.value / this.progress.max) * 100).toFixed(2) + '%'
+      return ((this.progress.value / this.progress.max) * 100).toFixed(0) + '%'
+    },
+    progress_percent: function() {
+      const p = Number(
+        ((this.progress.value / this.progress.max) * 100).toFixed(0)
+      )
+      return p
     },
     progress_loading_text: function() {
       return (
         (
           (this.progress_loading.value / this.progress_loading.max) *
           100
-        ).toFixed(2) + '%'
+        ).toFixed(0) + '%'
+      )
+    },
+    progress_loading_percent: function() {
+      return Number(
+        (
+          (this.progress_loading.value / this.progress_loading.max) *
+          100
+        ).toFixed(0)
       )
     }
   },
@@ -297,7 +265,7 @@ export default {
       })
     },
     copylog: function() {
-      const btnCopy = new ClipboardJS('#btnlog')
+      new ClipboardJS('#btnlog')
       this.$message.success('Log has been copied to clipboard')
     },
     run: async function() {
@@ -309,13 +277,14 @@ export default {
           this.nalabel = ''
           let framework = this.task.framework
           if (item == 'WebML') {
-            framework = 'Web ML API'
+            framework = 'WebML API'
           }
           const configuration = {
             framework: framework,
-            modelName: this.task.model_name,
+            modelName: this.parameter,
             modelVersion: this.task.model_version,
             backend: item,
+            prefer: this.task.prefer,
             iteration: this.task.iteration,
             model: this.task.model,
             label: this.task.label,
@@ -338,7 +307,7 @@ export default {
       let t = {}
       t['Test Image'] = 0
       t['WASM Polyfill'] = 0
-      t['WebGL2 Polyfill'] = 0
+      t['WebGL Polyfill'] = 0
       t.WebML = 0
 
       this.task.test.image.map(image => {
@@ -347,8 +316,8 @@ export default {
             t['Test Image'] = item.test_case
             if (item.backend.toLowerCase() == 'wasm') {
               t['WASM Polyfill'] = item.test_result
-            } else if (item.backend.toLowerCase() == 'webgl2') {
-              t['WebGL2 Polyfill'] = item.test_result
+            } else if (item.backend.toLowerCase() == 'webgl') {
+              t['WebGL Polyfill'] = item.test_result
             } else if (item.backend.toLowerCase() == 'webml') {
               t.WebML = item.test_result
             }

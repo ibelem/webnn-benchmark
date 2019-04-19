@@ -796,7 +796,7 @@ class WebMLJSBenchmark extends Benchmark {
 
 const BenchmarkClass = {
   'webml-polyfill.js': WebMLJSBenchmark,
-  'Web ML API': WebMLJSBenchmark
+  'WebML API': WebMLJSBenchmark
 }
 
 let testresult = []
