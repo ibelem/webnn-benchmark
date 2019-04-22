@@ -1,30 +1,30 @@
 <template>
   <a-layout id="components-layout-test-top" class="layout">
     <LHeader/>
-    <MacSwitcher/>
     <a-layout-content>
       <div class>
-        <h2 class>{{ parameter }}</h2>
+        <h2>{{ task.modelName }}</h2>
 
-        <div class>{{ task.description }}</div>
+        <div class="s85">{{ task.description }}</div>
 
-        <div v-if="getBackend" class>
-          <div v-if="task.model_version">Model Version: {{ task.model_version }}</div>
+        <div class="s85 runfullwidth mt">Model Version: {{ task.model_version }}</div>
+
+        <div v-if="isrun">
           <div class="run">
             <div class="runhalfwidth">
-              <div class>Loading Model File: {{ progress_loading_text }}</div>
-              <a-progress :percent="progress_loading_percent"/>
+              <div class="s85">Loading Model File: {{ progress_loading_text }}</div>
+              <a-progress :percent="progress_loading_percent" />
             </div>
             <div class="runhalfwidth">
-              <div class>Run Model with Tests: {{ progress_text }}</div>
-              <a-progress :percent="progress_percent"/>
+              <div class="s85">Run Model with Tests: {{ progress_text }}</div>
+              <a-progress :percent="progress_percent" />
             </div>
           </div>
         </div>
 
         <div class="run">
-          <div v-show="getTestImage" class="runhalfwidth">
-            <img id="testimage" :src="getTestImage" alt="Test Image">
+          <div v-show="getTestImage" class="runhalfwidth vc">
+            <img id="testimage" :src="getTestImage" alt="Test Image" />
             <canvas class="testimage"></canvas>
             <div class="inference_label">{{ currentinference }}</div>
           </div>
@@ -35,23 +35,24 @@
             </div>
           </div>
         </div>
-        <div v-if="showBar" class>
-          <div class>
-              <a-table :columns="columns" :data-source="test_result" size="small"/>
-              <div class>{{ nalabel }}</div>
+        <h2 v-if="showBar" class='runfullwidth'>{{ task.modelName }} Benchmark</h2>
+        <div v-if="showBar" class='run'>
+          <div class="runhalfwidth">
+            <a-table :columns="columns" :data-source="test_result" size="small" rowKey="id" :pagination="pagination" />
+            <div class="nalabel">{{ nalabel }}</div>
           </div>
-          <div class>
+          <div class="runhalfwidth">
             <div class="bar-chart">
-              <ve-histogram v-if="showBar" :data="barData" :settings="chartSettings" class="cmh"></ve-histogram>
+              <ve-histogram v-if="showBar" :data="barData" :settings="chartSettings" rowKey="id"></ve-histogram>
             </div>
           </div>
         </div>
         <div class="runbtn">
-          <a-button type="primary" @click="run">Run {{ task.name }}</a-button>
+          <a-button type="primary" @click="run">Run {{ task.modelName }}</a-button>
         </div>
       </div>
     </a-layout-content>
-    <LFooter/>
+    <LFooter />
   </a-layout>
 </template>
 
@@ -67,9 +68,9 @@ import {
   testresult,
   bardata,
   run,
-  nalabel
-  // getModelArrayBuffer,
-  // clearModelArrayBuffer
+  nalabel,
+  getModelArrayBuffer,
+  clearModelArrayBuffer
 } from '~/static/js/main.js'
 
 const columns = [
@@ -78,15 +79,11 @@ const columns = [
     dataIndex: 'backend'
   },
   {
-    title: 'Prefer',
-    dataIndex: 'prefer'
-  },
-  {
     title: 'Test',
     dataIndex: 'test_case'
   },
   {
-    title: 'Probability',
+    title: 'Best Probability',
     dataIndex: 'probability'
   },
   {
@@ -99,8 +96,7 @@ export default {
   name: 'Mobilenet',
   components: {
     LHeader,
-    LFooter,
-    MacSwitcher
+    LFooter
   },
   head: {
     script: [
@@ -144,45 +140,53 @@ export default {
       currentinference: '',
       chartSettings: {
         yAxisType: ['KMB', 'percent'],
-        yAxisName: ['ms', ''],
+        yAxisName: ['Time (ms)', ''],
         showLine: ['Probability']
       },
       barData: {
-        columns: ['Test Image', 'WASM Polyfill', 'WebGL Polyfill', 'WebML'],
+        columns: ['test', 'wasm', 'webgl', 'sustained', 'fast', 'low'],
         rows: [
           {
-            'Test Image': 'bee_eater.jpg',
-            'WASM Polyfill': 0,
-            'WebGL2 Polyfill': 0,
-            WebML: 0
+            'test': 'bee_eater.jpg',
+            'wasm': 0,
+            'webgl': 0,
+            'sustained': 0,
+            'fast': 0,
+            'low': 0
           }
         ]
       },
       progress: {
         value: 0,
-        max: 9
+        max: 15
       },
       progress_loading: {
         value: 0,
         max: 1
       },
       columns,
+      pagination: {
+        pageSize: 9,
+        showSizeChanger: true,
+        pageSizeOptions: ['3', '6', '9', '15', '30', '50', '100'],
+        showTotal: total => `Total ${total} items`,
+        showSizeChange: (current, pageSize) => this.pageSize = pageSize
+      },
       test_result: [],
       log: null,
+      isrun: false,
       getBackend: '',
       getTestImage: '',
       task: {
         id: 1,
+        modelName: 'Mobilenet v1 (TFLite)',
         model_format_name: 'mobilenet_v1_tflite',
-        backend: ['WASM', 'WebGL'],
-        prefer: ['sustained'],
+        backend: ['WASM', 'WebGL', 'WebML'],
+        prefer: ['sustained', 'fast', 'low'],
         iteration: 4,
         framework: 'webml-polyfill.js',
         model: '../image_classification/model/mobilenet_v1_1.0_224.tflite',
         label: '../image_classification/model/labels.txt',
-        // "model": 'https://aimark.nos-eastchina1.126.net/model/mobilenet/mobilenet_v1_1.0_224.tflite',
-        // "label": 'https://aimark.nos-eastchina1.126.net/model/mobilenet/labels.txt',
-        name: 'Image Classification (MobileNet V1)',
         description:
           'An efficient Convolutional Neural Networks for Mobile Vision Applications. Loading MobileNet model trained by ImageNet in TensorFlow Lite format, constructs and inferences it by WebML API.',
         model_version: 'v1.0_224',
@@ -196,9 +200,7 @@ export default {
             '../img/traffic_light.jpg',
             '../img/pinwheel.jpg'
           ]
-        },
-        platform: ['android', 'windows', 'linux'],
-        browser: ['chrome', 'firefox']
+        }
       }
     }
   },
@@ -236,7 +238,7 @@ export default {
     this.scrollToBottom()
     this.progress.max = this.task.backend.length * this.task.test.image.length
     this.progress_loading.max = 1
-    this.getTestImage = this.task.test.image[0]
+    // this.getTestImage = this.task.test.image[0]
   },
   updated: function() {
     this.scrollToBottom()
@@ -270,60 +272,93 @@ export default {
     },
     run: async function() {
       let i = 0
-      // await getModelArrayBuffer(this.task.model)
+      this.isrun = true
+      await getModelArrayBuffer(this.task.model)
       for (const item of this.task.backend) {
-        for (const image of this.task.test.image) {
-          this.currentinference = ''
-          this.nalabel = ''
-          let framework = this.task.framework
-          if (item == 'WebML') {
-            framework = 'WebML API'
+        let framework = this.task.framework
+        if (item === 'WebML') {
+          framework = 'WebML API'
+          for (const p of this.task.prefer) {
+            for (const image of this.task.test.image) {
+              this.currentinference = ''
+              this.nalabel = ''
+              const configuration = {
+                framework: framework,
+                modelName: this.parameter,
+                modelVersion: this.task.model_version,
+                backend: item,
+                prefer: p,
+                iteration: this.task.iteration,
+                model: this.task.model,
+                label: this.task.label,
+                image: image
+              }
+              this.getBackend = configuration.backend
+              this.getTestImage = configuration.image
+              await run(configuration)
+              this.currentinference = currentinference
+              this.nalabel = nalabel
+              await this.timeout(500)
+              this.progress.value = ++i
+            }
           }
-          const configuration = {
-            framework: framework,
-            modelName: this.parameter,
-            modelVersion: this.task.model_version,
-            backend: item,
-            prefer: this.task.prefer,
-            iteration: this.task.iteration,
-            model: this.task.model,
-            label: this.task.label,
-            image: image
+        } else {
+          for (const image of this.task.test.image) {
+            this.currentinference = ''
+            this.nalabel = ''
+            const configuration = {
+              framework: framework,
+              modelName: this.parameter,
+              modelVersion: this.task.model_version,
+              backend: item,
+              prefer: '',
+              iteration: this.task.iteration,
+              model: this.task.model,
+              label: this.task.label,
+              image: image
+            }
+            this.getBackend = configuration.backend
+            this.getTestImage = configuration.image
+            await run(configuration)
+            this.currentinference = currentinference
+            this.nalabel = nalabel
+            await this.timeout(500)
+            this.progress.value = ++i
           }
-          this.getBackend = configuration.backend
-          this.getTestImage = configuration.image
-          await run(configuration)
-          this.currentinference = currentinference
-          this.nalabel = nalabel
-          await this.timeout(500)
-          this.progress.value = ++i
         }
       }
-      // await clearModelArrayBuffer()
+      await clearModelArrayBuffer()
       this.test_result = testresult
       this.showBar = true
 
       this.barData.rows = []
       let t = {}
-      t['Test Image'] = 0
-      t['WASM Polyfill'] = 0
-      t['WebGL Polyfill'] = 0
-      t.WebML = 0
+      t.test = 0
+      t.wasm = 0
+      t.webgl = 0
+      t.sustained = 0
+      t.fast = 0
+      t.low = 0
 
       this.task.test.image.map(image => {
         for (const item of testresult) {
           if (item.test_case == image.split('/').pop()) {
-            t['Test Image'] = item.test_case
+            t.test = item.test_case
             if (item.backend.toLowerCase() == 'wasm') {
-              t['WASM Polyfill'] = item.test_result
+              t.wasm = item.test_result
             } else if (item.backend.toLowerCase() == 'webgl') {
-              t['WebGL Polyfill'] = item.test_result
-            } else if (item.backend.toLowerCase() == 'webml') {
-              t.WebML = item.test_result
+              t.webgl = item.test_result
+            } else if (item.backend.toLowerCase() == 'webnn sustained') {
+              t.sustained = item.test_result
+            } else if (item.backend.toLowerCase() == 'webnn fast') {
+              t.fast = item.test_result
+            } else if (item.backend.toLowerCase() == 'webnn low') {
+              t.low = item.test_result
             }
           }
         }
         this.barData.rows.push(t)
+        console.log(t)
         t = {}
       })
     },

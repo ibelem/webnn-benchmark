@@ -47,6 +47,7 @@
 }
 
 .ant-layout-footer {
+  margin-top: 2rem;
   padding: 0;
 }
 
@@ -82,6 +83,28 @@
 
 .ant-btn {
   border-radius: 0px;
+}
+
+.nalabel {
+  font-size: 0.75rem;
+  text-align: left;
+}
+
+h2 { 
+  color: rgba(222, 12, 101, 0.9);
+  font-weight: 200;
+}
+
+.s85 {
+  font-size: 0.85rem;
+}
+
+.mt { margin-top: 1rem; }
+
+.inference_label {
+  margin-top: 5px;
+  color: rgba(222, 12, 101, 0.9);
+  font-size: 0.75rem;
 }
 
 @media screen and (min-width: 1280px) {
@@ -187,20 +210,18 @@
   border: 1px solid #d9d9d9;
   box-shadow: 0 2px 3px hsla(0,0%,4%,.01), 0 0 0 1px hsla(0,0%,4%,.01);
   text-align: left;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
 }
 
 .btnlog {
   text-align: right;
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
 }
 
 .btnlog button {
   margin-top: -1px;
-}
-
-.cmh,
-.cmh canvas {
-  max-height: 380px !important;
+  font-size: 0.75rem;
 }
 
  ::-webkit-scrollbar {
@@ -245,6 +266,32 @@
   display: block;
   width: 48%;
 }
+
+.vc {
+  height: 256px;
+}
+
+.ant-table-small th div, .ant-table-small td {
+  text-align: center;
+}
+
+.ant-table-small tr:nth-child(odd) {
+  background-color: #fafafa;
+}
+
+.ant-table-small th, .ant-table-small td {
+  padding: 6px 4px !important;
+}
+
+.ant-table-small {
+  border: 0px;
+  font-size: 0.75rem;
+}
+
+.ant-table-pagination.ant-pagination {
+  font-size: 0.75rem;
+}
+
 
 @media (max-width: 768px) {
   #testimage,

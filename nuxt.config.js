@@ -38,7 +38,11 @@ module.exports = {
     { src: '~/assets/css/main.css' }
   ],
 
-  plugins: [{ src: '@/plugins/antd-ui', ssr: true }, '~/plugins/i18n.js'],
+  plugins: [
+    { src: '@/plugins/antd-ui', ssr: true },
+    '~/plugins/i18n.js',
+    { src: '~/plugins/v-chart.js', ssr: false }
+  ],
 
   modules: [
     // Doc: https://axios.nuxtjs.org/usage

@@ -1,5 +1,5 @@
 <template>
-  <a-layout-footer>
+  <a-layout-footer class="s85">
     <footer>
       <Badge />
       <Environment />

@@ -1,5 +1,5 @@
 <template>
-  <div id="environment">
+  <div id="environment" class="s85">
     <div
       v-if="
         devicevendor.toString().length > 0 ||
@@ -105,7 +105,6 @@ export default {
 
 <style scoped>
 #environment {
-  font-size: 0.7rem;
   margin-bottom: 0.4rem;
 }
 #device {

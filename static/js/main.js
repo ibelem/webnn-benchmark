@@ -741,6 +741,47 @@ function getSelectedOps() {
   // todo
 }
 
+const loadUrl = (url, binary) => {
+  return new Promise((resolve, reject) => {
+    const request = new XMLHttpRequest()
+    request.open('GET', url, true)
+    if (binary) {
+      request.responseType = 'arraybuffer'
+    }
+    request.addEventListener("progress", function (evt) {
+      if (evt.lengthComputable) {
+        const percentComplete = evt.loaded / evt.total
+        modelprogress = percentComplete
+      }
+    }, false)
+    request.onload = function (ev) {
+      if (request.readyState === 4) {
+        if (request.status === 200) {
+          resolve(request.response)
+        } else {
+          reject(
+            new Error('Failed to load ' + url + ' status: ' + request.status)
+          )
+        }
+      }
+    }
+    request.send()
+  })
+}
+
+const getModelArrayBuffer = async (url) => {
+  // console.log(">>>>>>>> Start to load model")
+  arrayBuffer = await loadUrl(url, true)
+  // console.log(">>>>>>>> Model loaded");
+}
+
+const clearModelArrayBuffer = async () => {
+  // console.log(">>>>>>>>" + arrayBuffer);
+  arrayBuffer = null
+  // console.log(">>>>>>>>" + arrayBuffer);
+  // console.log(">>>>>>>> Model ArrayBuffer cleared");
+}
+
 class Logger {
   constructor() {
     this.indent = 0
@@ -1080,41 +1121,15 @@ class WebMLJSBenchmark extends Benchmark {
     this.labels = null
   }
   async loadModelAndLabels(model) {
-    const arrayBuffer = await this.loadUrl(model.modelFile, true)
+    // const arrayBuffer = await loadUrl(model.modelFile, true)
     const bytes = new Uint8Array(arrayBuffer)
-    const text = await this.loadUrl(model.labelsFile)
+    const text = await loadUrl(model.labelsFile)
     return {
       bytes: bytes,
       text: text
     }
   }
-  loadUrl(url, binary) {
-    return new Promise((resolve, reject) => {
-      const request = new XMLHttpRequest()
-      request.open('GET', url, true)
-      if (binary) {
-        request.responseType = 'arraybuffer'
-      }
-      request.addEventListener("progress", function (evt) {
-        if (evt.lengthComputable) {
-          const percentComplete = evt.loaded / evt.total
-          modelprogress = percentComplete
-        }
-      }, false)
-      request.onload = function (ev) {
-        if (request.readyState === 4) {
-          if (request.status === 200) {
-            resolve(request.response)
-          } else {
-            reject(
-              new Error('Failed to load ' + url + ' status: ' + request.status)
-            )
-          }
-        }
-      }
-      request.send()
-    })
-  }
+
   async setInputOutput() {
     imageElement = document.querySelector('#testimage')
     canvasElement = document.querySelector('canvas.testimage')
@@ -1232,7 +1247,7 @@ class WebMLJSBenchmark extends Benchmark {
       if (pnConfigDic === null) {
         // Read modelVersion outputStride scaleFactor minScore from json file
         const posenetConfigURL = './posenetConfig.json'
-        const pnConfigText = await this.loadUrl(posenetConfigURL)
+        const pnConfigText = await loadUrl(posenetConfigURL)
         pnConfigDic = JSON.parse(pnConfigText)
       }
       this.modelVersion = Number(pnConfigDic.modelVersion)
@@ -1575,16 +1590,9 @@ async function run(configuration) {
     logger.group('Configuration')
     lh.add('Configuration')
     Object.keys(configuration).forEach(key => {
-      if (key === 'backend') {
+      if (configuration[key]) {
         logger.log(`${key.padStart(12)}: ${configuration[key]}`)
-        lh.add(`${key.padStart(12)}: ${configuration[key]}`)
-      } else {
-        logger.log(`${key.padStart(12)}: ${configuration[key]}`)
-        lh.add(
-          `&nbsp;&nbsp;${key.padStart(
-            12
-          )}: ${configuration[key]}`
-        )
+        lh.add(`&nbsp;&nbsp;${key}: ${configuration[key]}`)
       }
     })
     logger.groupEnd()
@@ -1647,7 +1655,9 @@ async function run(configuration) {
     d.model = configuration.modelName
     d.model_version = configuration.modelVersion
     d.backend = configuration.backend
-    d.prefer = configuration.prefer
+    if (configuration.backend === 'WebML') {
+      d.backend = configuration.backend.replace('WebML', 'WebNN') + ' ' + configuration.prefer
+    }
     d.test_case = configuration.image.split('/').pop()
     d.test_result = summary.computeResults.mean.toFixed(2)
     if (summary.decodeResults !== null) {
@@ -1687,6 +1697,9 @@ async function run(configuration) {
     d.model = configuration.modelName
     d.model_version = configuration.modelVersion
     d.backend = configuration.backend
+    if (configuration.backend === 'WebML') {
+      d.backend = configuration.backend.replace('WebML', 'WebNN') + ' ' + configuration.prefer
+    }
     d.test_case = configuration.image.split('/').pop()
     d.test_result = 'N/A (*)'
     d.decode_result = 'N/A'
@@ -1695,7 +1708,7 @@ async function run(configuration) {
     testresult.push(d)
 
     currentinference = 'N/A'
-    nalabel = "N/A (*): Your browser doesn't support native WebML API"
+    nalabel = "N/A (*): Your browser doesn't support WebNN API with current prefer option"
 
     lh.add(`<div></div>`)
 
@@ -1718,7 +1731,7 @@ async function run(configuration) {
   //   testresult = testresult.slice(9)
   // }
 
-  console.log('>>>>>>>>' + testresult)
+  console.log(testresult)
 }
 
 export {
@@ -1729,5 +1742,7 @@ export {
   bardata,
   currentinference,
   posenetbase64,
-  nalabel
+  nalabel,
+  getModelArrayBuffer,
+  clearModelArrayBuffer
 }
