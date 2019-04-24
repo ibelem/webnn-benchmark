@@ -21,7 +21,7 @@ export default {
     }
   },
   mounted: function() {
-    setTimeout(this.isWebNN, 100)
+    setTimeout(this.isWebNN, 10)
   },
   methods: {
     isWebNN: function() {

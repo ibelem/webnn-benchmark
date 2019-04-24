@@ -47,7 +47,7 @@
 }
 
 .ant-layout-footer {
-  margin-top: 2rem;
+  margin-top: 1rem;
   padding: 0;
 }
 
@@ -101,10 +101,71 @@ h2 {
 
 .mt { margin-top: 1rem; }
 
+.bt {margin-bottom: 1rem; }
+
+.ant-alert {
+  border-radius: 0px;
+}
+
 .inference_label {
   margin-top: 5px;
   color: rgba(222, 12, 101, 0.9);
   font-size: 0.75rem;
+}
+
+.options {
+  border: 1px solid #ffadd2;
+}
+
+.optiontitle {
+  padding: 0.1rem 0.5rem;
+  background-color: #fff0f6;
+}
+
+.optionbackend {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 0.2rem;
+}
+
+.ant-slider {
+  width: 60px;
+  margin: 0 0 0 1rem;
+}
+
+.options, .options span, .ant-slider {
+  font-size: 0.75rem;
+  text-align: left;
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 21px;
+}
+
+.ant-checkbox {
+  top: -2px;
+}
+
+.options span {
+  padding-bottom: 1px; 
+}
+
+.ant-input-number {
+  border-radius: 0;
+  height: 19px;
+  width: 32px;
+  margin-left:10px;
+  font-size: 0.75rem;
+  border: 0px;
+}
+
+.ant-input-number-input { 
+  height: 19px;
+  padding: 0 4px;
+}
+
+.ant-input-number-handler-wrap {
+  height: 0px;
+  width: 0px;
 }
 
 @media screen and (min-width: 1280px) {
@@ -182,6 +243,29 @@ h2 {
   .ant-col-6 {
     width: 100%;
   }
+
+  .optiontitle { 
+    display: block !important;
+  }
+
+  .optionbackend {
+    padding: 0.5rem;
+  }
+
+  .ant-slider {
+    margin: 0.5rem 1rem;
+    width: 70%;
+  }
+
+  .options {
+    margin-bottom: 0.5rem;
+    display: block !important;
+  }
+
+  .atag {
+    margin: 0.5rem 0;
+    margin-bottom: 0.5rem !important;
+  }
 }
 
 .progress {
@@ -247,10 +331,20 @@ h2 {
 }
 
 .run {
-  margin: 1rem auto;
+  margin: 0rem auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.ant-btn-primary {
+  background-color: rgba(222, 12, 101, 0.9);
+  border-color: rgba(222, 12, 101, 0.9);
+}
+
+.ant-btn-primary:hover {
+  background-color: rgba(222, 12, 101, 1.0);
+  border-color: rgba(222, 12, 101, 1.0);
 }
 
 .runfullwidth, .runhalfwidth, .runlog, .runbtn {
@@ -265,6 +359,20 @@ h2 {
 .runhalfwidth {
   display: block;
   width: 48%;
+}
+
+.atag { margin-bottom: 0.5rem; }
+
+.ant-tag {
+  border-radius: 0px;
+  cursor: text !important;
+  margin-bottom: 2px;
+}
+
+.ant-tag-pink {
+  color: rgba(222, 12, 101, 0.9);
+  background-color: transparent;
+  border: 0px;
 }
 
 .vc {
@@ -314,6 +422,12 @@ h2 {
     display: block;
     width: 100% !important;
   }
+
+  .options, .logsection, .ant-table-small, .ve-histogram canvas {
+    width: 96% !important;
+  }
+
+  .ant-table-pagination.ant-pagination { margin-right: 1rem;}
 
   #log {
     height: 112px;

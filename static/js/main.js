@@ -837,6 +837,7 @@ class Benchmark {
   }
   async runAsync(configuration) {
     this.configuration = configuration
+    console.log(`+++++++++++++++++++++configuration++++++++++++++++++`)
     console.log(configuration)
     await this.setupAsync()
     const results = await this.executeAsync()
@@ -875,12 +876,12 @@ class Benchmark {
   async executeAsync() {
     let computeResults = []
     let decodeResults = []
-    const modelName = this.configuration.modelName
+    const modelFormatName = this.configuration.modelFormatName
     if (
-      tfliteModelArray.indexOf(modelName) !== -1 ||
-      onnxModelArray.indexOf(modelName) !== -1
+      tfliteModelArray.indexOf(modelFormatName) !== -1 ||
+      onnxModelArray.indexOf(modelFormatName) !== -1
     ) {
-      console.log('***************' + modelName)
+      console.log('***************' + modelFormatName)
       for (let i = 0; i < this.configuration.iteration; i++) {
         this.onExecuteSingle(i)
         await new Promise(resolve => requestAnimationFrame(resolve))
@@ -891,7 +892,7 @@ class Benchmark {
         this.printPredictResult()
         computeResults.push(elapsedTime)
       }
-    } else if (modelName === 'posenet') {
+    } else if (modelFormatName === 'posenet') {
       let singlePose = null
       for (let i = 0; i < this.configuration.iteration; i++) {
         this.onExecuteSingle(i)
@@ -924,7 +925,7 @@ class Benchmark {
       })
       bkPoseImageSrc = imageElement.src
       imageElement.src = poseCanvas.toDataURL()
-    } else if (ssdModelArray.indexOf(modelName) !== -1) {
+    } else if (ssdModelArray.indexOf(modelFormatName) !== -1) {
       if (this.ssdModelType === 'SSD') {
         let outputBoxTensor, outputClassScoresTensor
         for (let i = 0; i < this.configuration.iteration; i++) {
@@ -996,7 +997,7 @@ class Benchmark {
       }
       bkPoseImageSrc = imageElement.src
       imageElement.src = poseCanvas.toDataURL()
-    } else if (segmentationModelArray.indexOf(modelName) !== -1) {
+    } else if (segmentationModelArray.indexOf(modelFormatName) !== -1) {
       for (let i = 0; i < this.configuration.iteration; i++) {
         this.onExecuteSingle(i)
         await new Promise(resolve => requestAnimationFrame(resolve))
@@ -1135,10 +1136,10 @@ class WebMLJSBenchmark extends Benchmark {
     canvasElement = document.querySelector('canvas.testimage')
     poseCanvas = document.querySelector('#poseCanvas')
 
-    const configModelName = this.configuration.modelName
+    const configModelName = this.configuration.modelFormatName
     const currentModel = getModelDicItem(configModelName)
 
-    console.log(this.configuration.modelName)
+    console.log(this.configuration.modelFormatName)
     console.log(currentModel)
 
     let width = currentModel.inputSize[1]
@@ -1408,10 +1409,10 @@ class WebMLJSBenchmark extends Benchmark {
   async setupAsync() {
     await this.setInputOutput()
     const backend = this.configuration.backend.replace('native', 'WebML')
-    const modelName = this.configuration.modelName
-    const prefer = this.configuration.prefer
-    if (tfliteModelArray.indexOf(modelName) !== -1) {
-      const model = getModelDicItem(modelName)
+    const modelFormatName = this.configuration.modelFormatName
+    const prefer = this.configuration.prefer.toLowerCase()
+    if (tfliteModelArray.indexOf(modelFormatName) !== -1) {
+      const model = getModelDicItem(modelFormatName)
       const resultTflite = await this.loadModelAndLabels(model)
       this.labels = resultTflite.text.split('\n')
       const flatBuffer = new flatbuffers.ByteBuffer(resultTflite.bytes)
@@ -1424,8 +1425,8 @@ class WebMLJSBenchmark extends Benchmark {
         softmax: postOptions.softmax || false
       }
       this.model = new TFliteModelImporter(kwargs)
-    } else if (onnxModelArray.indexOf(modelName) !== -1) {
-      const model = getModelDicItem(modelName)
+    } else if (onnxModelArray.indexOf(modelFormatName) !== -1) {
+      const model = getModelDicItem(modelFormatName)
       const resultONNX = await this.loadModelAndLabels(model)
       this.labels = resultONNX.text.split('\n')
       console.log(`labels: ${this.labels}`)
@@ -1442,8 +1443,8 @@ class WebMLJSBenchmark extends Benchmark {
         softmax: postOptions.softmax || false
       }
       this.model = new OnnxModelImporter(kwargs)
-    } else if (ssdModelArray.indexOf(modelName) !== -1) {
-      const model = getModelDicItem(modelName)
+    } else if (ssdModelArray.indexOf(modelFormatName) !== -1) {
+      const model = getModelDicItem(modelFormatName)
       const resultTflite = await this.loadModelAndLabels(model)
       this.labels = resultTflite.text.split('\n')
       const flatBuffer = new flatbuffers.ByteBuffer(resultTflite.bytes)
@@ -1454,7 +1455,7 @@ class WebMLJSBenchmark extends Benchmark {
         prefer: prefer
       }
       this.model = new TFliteModelImporter(kwargs)
-    } else if (modelName === 'posenet') {
+    } else if (modelFormatName === 'posenet') {
       const modelArch = ModelArch.get(this.modelVersion)
       const smType = 'Singleperson'
       const cacheMap = new Map()
@@ -1470,8 +1471,8 @@ class WebMLJSBenchmark extends Benchmark {
         backend,
         prefer
       )
-    } else if (segmentationModelArray.indexOf(modelName) !== -1) {
-      const model = getModelDicItem(modelName)
+    } else if (segmentationModelArray.indexOf(modelFormatName) !== -1) {
+      const model = getModelDicItem(modelFormatName)
       const resultTflite = await this.loadModelAndLabels(model)
       this.labels = resultTflite.text.split('\n')
       const flatBuffer = new flatbuffers.ByteBuffer(resultTflite.bytes)
@@ -1563,11 +1564,6 @@ class WebMLJSBenchmark extends Benchmark {
 //
 // Main
 //
-const BenchmarkClass = {
-  'webml-polyfill.js': WebMLJSBenchmark,
-  'WebML API': WebMLJSBenchmark
-}
-
 let testresult = []
 let bardata = []
 
@@ -1580,7 +1576,7 @@ async function run(configuration) {
   logger.group('Benchmark')
 
   try {
-    // let configuration = {framework: "webml-polyfill.js", backend: "WASM", modelName: "mobilenet", iteration: 4};
+    // let configuration = {framework: "webml-polyfill.js", backend: "WASM", modelFormatName: "mobilenet", iteration: 4};
 
     logger.group('Environment Information')
     logger.log(`${'UserAgent'.padStart(12)}: ${navigator.userAgent || '(N/A)'}`)
@@ -1599,7 +1595,7 @@ async function run(configuration) {
     lh.add(`<div></div>`)
     logger.group('Run')
     lh.add(`Run`)
-    const benchmark = new BenchmarkClass[configuration.framework]()
+    const benchmark = new WebMLJSBenchmark()
     console.log(benchmark)
     benchmark.onExecuteSingle = i => {
       logger.log(`Iteration: ${i + 1} / ${configuration.iteration}`)
@@ -1614,7 +1610,7 @@ async function run(configuration) {
     lh.add(`Result`)
 
     logger.log(
-      `[${configuration.modelName} + ${
+      `[${configuration.modelFormatName} + ${
       configuration.backend
       }] Elapsed time: ${summary.computeResults.mean.toFixed(
         2
@@ -1622,7 +1618,7 @@ async function run(configuration) {
     )
     lh.add(
       `&nbsp;&nbsp; [${
-      configuration.modelName
+      configuration.modelFormatName
       } + ${
       configuration.backend
       }] Elapsed time: ${summary.computeResults.mean.toFixed(
@@ -1632,7 +1628,7 @@ async function run(configuration) {
 
     if (summary.decodeResults !== null) {
       logger.log(
-        `[${configuration.modelName} + ${
+        `[${configuration.modelFormatName} + ${
         configuration.backend
         }] Decode time: ${summary.decodeResults.mean.toFixed(
           2
@@ -1640,7 +1636,7 @@ async function run(configuration) {
       )
       lh.add(
         `&nbsp;&nbsp; [${
-        configuration.modelName
+        configuration.modelFormatName
         } + ${
         configuration.backend
         }] Decode time: ${summary.decodeResults.mean.toFixed(
@@ -1652,11 +1648,11 @@ async function run(configuration) {
     const d = {}
     d.id = configuration.id
     d.name = configuration.name
-    d.model = configuration.modelName
+    d.model = configuration.modelFormatName
     d.model_version = configuration.modelVersion
     d.backend = configuration.backend
     if (configuration.backend === 'WebML') {
-      d.backend = configuration.backend.replace('WebML', 'WebNN') + ' ' + configuration.prefer
+      d.backend = configuration.prefer
     }
     d.test_case = configuration.image.split('/').pop()
     d.test_result = summary.computeResults.mean.toFixed(2)
@@ -1687,18 +1683,18 @@ async function run(configuration) {
     logger.error(err)
     lh.add(
       `&nbsp;&nbsp; [${
-      configuration.modelName
+      configuration.modelFormatName
       } + ${configuration.backend}] ` + err
     )
 
     const d = {}
     d.id = configuration.id
     d.name = configuration.name
-    d.model = configuration.modelName
+    d.model = configuration.modelFormatName
     d.model_version = configuration.modelVersion
     d.backend = configuration.backend
     if (configuration.backend === 'WebML') {
-      d.backend = configuration.backend.replace('WebML', 'WebNN') + ' ' + configuration.prefer
+      d.backend = configuration.prefer
     }
     d.test_case = configuration.image.split('/').pop()
     d.test_result = 'N/A (*)'
