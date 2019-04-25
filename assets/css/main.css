@@ -2,6 +2,10 @@
   margin: 0px auto;
 }
 
+.full {
+  width: 100%;
+}
+
 .ant-layout-header {
   padding: 0;
   text-align: left;
@@ -93,6 +97,7 @@
 h2 { 
   color: rgba(222, 12, 101, 0.9);
   font-weight: 200;
+  margin-bottom: 0px;
 }
 
 .s85 {
@@ -261,11 +266,6 @@ h2 {
     margin-bottom: 0.5rem;
     display: block !important;
   }
-
-  .atag {
-    margin: 0.5rem 0;
-    margin-bottom: 0.5rem !important;
-  }
 }
 
 .progress {
@@ -361,12 +361,9 @@ h2 {
   width: 48%;
 }
 
-.atag { margin-bottom: 0.5rem; }
-
 .ant-tag {
   border-radius: 0px;
   cursor: text !important;
-  margin-bottom: 2px;
 }
 
 .ant-tag-pink {

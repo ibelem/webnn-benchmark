@@ -2,15 +2,15 @@
   <a-layout id="components-layout-test-top" class="layout">
     <LHeader/>
     <a-layout-content>
-      <div class>
-        <h2>{{ this.task.modelName}}</h2>
+      <div class='full'>
+        <h2>{{ model.modelName }}</h2>
 
-        <div class="s85">{{ this.task.description }}</div>
+        <div class="s85">{{ model.intro }}</div>
 
-        <div class="s85 runfullwidth atag">
-          <a-tag color="pink">Model Version {{ task.model_version }}</a-tag>
-          <a-tag color="pink">Model Size: {{ task.model_size }}</a-tag>
-          <a-tag color="pink">Model Accuracy: {{ task.accuracy }}</a-tag>
+        <div class="s85 runfullwidth atag mt bt">
+          <a-tag color="pink">Version: {{ task.model_version }}</a-tag>
+          <a-tag color="pink">Size: {{ model.modelSize }}</a-tag>
+          <a-tag color="pink">Accuracy: {{ task.accuracy }}</a-tag>
         </div>
 
         <div class="s85 runfullwidth bt option">
@@ -39,39 +39,39 @@
           </div>
           <div class="options">
             <span class="optiontitle">Iterations</span>
-            <a-slider :min="2" :max="300" v-model="iterations" :tooltipVisible="slidertooltip"/>
-            <a-input-number :min="2" :max="300" :step="1" v-model="iterations"/>
+            <a-slider :min="2" :max="300" v-model="iterations" :tooltipVisible="slidertooltip" />
+            <a-input-number :min="2" :max="300" :step="1" v-model="iterations" />
           </div>
         </div>
 
         <div v-if="isrun">
           <div class="run">
             <div class="runhalfwidth">
-              <div class="s85">Loading Model File: {{ progress_loading_text }}</div>
-              <a-progress :percent="progress_loading_percent"/>
+              <div class="s85">Loading Model File: {{ progressLoadingText }}</div>
+              <a-progress :percent="progressLoadingPercent" />
             </div>
             <div class="runhalfwidth">
-              <div class="s85">Run Model with Tests: {{ progress_text }}</div>
-              <a-progress :percent="progress_percent"/>
+              <div class="s85">Run Model with Tests: {{ progressText }}</div>
+              <a-progress :percent="progressPercent" />
             </div>
           </div>
         </div>
 
         <div class="run">
-          <div v-show="getTestImage" class="runhalfwidth vc">
-            <img id="testimage" :src="getTestImage" alt="Test Image">
+          <div v-show="gettestimage" class="runhalfwidth vc">
+            <img id="testimage" :src="gettestimage" alt="Test Image">
             <canvas class="testimage"></canvas>
             <div class="inference_label">{{ currentinference }}</div>
           </div>
-          <div v-show="getBackend" class="logsection runlog runhalfwidth">
+          <div v-show="getbackend" class="logsection runlog runhalfwidth">
             <div id="log" class v-html="log"></div>
             <div class="btnlog">
               <a-button id="btnlog" data-clipboard-target="#log" @click="copylog">Copy Log</a-button>
             </div>
           </div>
         </div>
-        <h2 v-if="showBar" class="runfullwidth">{{ task.modelName }} Benchmark</h2>
-        <div v-if="showBar" class="run">
+        <h2 v-if="showbar" class="runfullwidth">{{ model.modelName }} Benchmark</h2>
+        <div v-if="showbar" class="run">
           <div class="runhalfwidth">
             <a-table
               :columns="columns"
@@ -85,11 +85,11 @@
           </div>
           <div class="runhalfwidth">
             <div class="bar-chart">
-              <ve-histogram v-if="showBar" :data="barData" :settings="chartSettings" rowKey="id"></ve-histogram>
+              <ve-histogram v-if="showbar" :data="histogramdata" :settings="chartSettings" rowKey="id"></ve-histogram>
             </div>
           </div>
         </div>
-        <div class="runbtn">
+        <div class="runbtn mt">
           <a-button type="primary" @click="run">Run {{ task.modelName }}</a-button>
         </div>
       </div>
@@ -187,7 +187,7 @@ export default {
     return {
       slidertooltip: true,
       iterations: 3,
-      isNN: false,
+      isnn: false,
       backendCheckedList: backendDefaultCheckedList,
       backendIndeterminate: true,
       backendPlainOptions,
@@ -197,22 +197,23 @@ export default {
       preferDisabled: false,
       backendalert: false,
       modelFormatName: '',
+      model: '',
       nalabel: '',
-      showBar: false,
+      showbar: false,
       currentinference: '',
       chartSettings: {
         yAxisType: ['KMB', 'percent'],
         yAxisName: ['ms', ''],
         showLine: ['Probability']
       },
-      barData: {
+      histogramdata: {
         columns: ['Test', 'WASM', 'WebGL', 'Sustained', 'Fast']
       },
       progress: {
         value: 0,
         max: 15
       },
-      progress_loading: {
+      loadingprogress: {
         value: 0,
         max: 1
       },
@@ -239,8 +240,8 @@ export default {
       test_result: [],
       log: null,
       isrun: false,
-      getBackend: '',
-      getTestImage: '',
+      getbackend: '',
+      gettestimage: '',
       task: {
         id: 1,
         modelName: 'Mobilenet v1 (TFLite)',
@@ -261,18 +262,6 @@ export default {
     }
   },
   computed: {
-    getModel: function() {
-      const model = this.$store.state.intro.imageClassificationModels.filter(
-        f => f.modelFormatName == this.modelFormatName
-      )
-      return model[0]
-    },
-    taskModeFile: function() {
-      return this.getModel.modelFile
-    },
-    taskLabelFile: function() {
-      return this.getModel.labelsFile
-    },
     backendCheckedListLength: function() {
       return this.backendCheckedList.length
     },
@@ -282,30 +271,36 @@ export default {
     realCheckedBackendLength: function() {
       return this.backendCheckedList.length + this.preferCheckedList.length
     },
-    progress_text: function() {
+    progressText: function() {
       return ((this.progress.value / this.progress.max) * 100).toFixed(0) + '%'
     },
-    progress_percent: function() {
+    progressPercent: function() {
       const p = Number(
         ((this.progress.value / this.progress.max) * 100).toFixed(0)
       )
       return p
     },
-    progress_loading_text: function() {
+    progressLoadingText: function() {
       return (
         (
-          (this.progress_loading.value / this.progress_loading.max) *
+          (this.loadingprogress.value / this.loadingprogress.max) *
           100
         ).toFixed(0) + '%'
       )
     },
-    progress_loading_percent: function() {
+    progressLoadingPercent: function() {
       return Number(
         (
-          (this.progress_loading.value / this.progress_loading.max) *
+          (this.loadingprogress.value / this.loadingprogress.max) *
           100
         ).toFixed(0)
       )
+    },
+    getModel: function() {
+      const model = this.$store.state.intro.imageClassificationModels.filter(
+        f => f.modelFormatName == this.modelFormatName
+      )
+      return model[0]
     }
   },
   mounted() {
@@ -313,15 +308,16 @@ export default {
       this.slidertooltip = false
     }, 500)
     this.modelFormatName = this.$route.params.pathMatch
+    this.model = this.getModel
     setInterval(this.getLog, 100)
     setInterval(this.getModelProgress, 100)
     this.scrollToBottom()
     this.progress.max =
       this.realCheckedBackendLength * this.task.test.image.length
-    this.progress_loading.max = 1
-    // this.getTestImage = this.task.test.image[0]
+    this.loadingprogress.max = 1
+    // this.gettestimage = this.task.test.image[0]
     this.isWebNN()
-    if (this.isNN) {
+    if (this.isnn) {
       this.preferDisabled = false
     } else {
       this.preferDisabled = true
@@ -350,12 +346,12 @@ export default {
       return r
     },
     updateBarColumn: function() {
-      this.barData.columns = [].concat(
+      this.histogramdata.columns = [].concat(
         'Test',
         this.backendCheckedList,
         this.preferCheckedList
       )
-      console.log(this.barData.columns)
+      console.log(this.histogramdata.columns)
     },
     scrollToBottom: function() {
       this.$nextTick(() => {
@@ -366,10 +362,6 @@ export default {
     copylog: function() {
       new ClipboardJS('#btnlog')
       this.$message.success('Log has been copied to clipboard')
-    },
-    run2: async function() {
-      console.log(this.backendCheckedListLength)
-      console.log(this.preferCheckedListLength)
     },
     run: async function() {
       let i = 0
@@ -385,7 +377,7 @@ export default {
       }
 
       this.isrun = true
-      await getModelArrayBuffer(this.taskModeFile)
+      await getModelArrayBuffer(this.model.modelFile)
 
       if (this.backendCheckedListLength > 0) {
         console.log(this.backendCheckedList)
@@ -395,17 +387,18 @@ export default {
             this.nalabel = ''
             const configuration = {
               id: idvalue,
+              model: this.model,
               modelFormatName: this.modelFormatName,
               modelVersion: this.task.model_version,
               backend: item,
               prefer: '',
               iteration: this.iterations,
-              model: this.taskModeFile,
-              label: this.taskLabelFile,
+              // model: this.taskModeFile,
+              // label: this.taskLabelFile,
               image: image
             }
-            this.getBackend = configuration.backend
-            this.getTestImage = configuration.image
+            this.getbackend = configuration.backend
+            this.gettestimage = configuration.image
             await run(configuration)
             this.currentinference = currentinference
             this.nalabel = nalabel
@@ -423,17 +416,18 @@ export default {
             this.nalabel = ''
             const configuration = {
               id: idvalue,
+              model: this.model,
               modelFormatName: this.modelFormatName,
               modelVersion: this.task.model_version,
               backend: 'WebML',
               prefer: p,
               iteration: this.iterations,
-              model: this.taskModeFile,
-              label: this.task.label,
+              // model: this.taskModeFile,
+              // label: this.taskLabelFile,
               image: image
             }
-            this.getBackend = configuration.backend
-            this.getTestImage = configuration.image
+            this.getbackend = configuration.backend
+            this.gettestimage = configuration.image
             await run(configuration)
             this.currentinference = currentinference
             this.nalabel = nalabel
@@ -446,9 +440,9 @@ export default {
       idvalue = 1
       await clearModelArrayBuffer()
       this.test_result = testresult
-      this.showBar = true
+      this.showbar = true
 
-      this.barData.rows = []
+      this.histogramdata.rows = []
       let t = {}
       t.id = 1
       t.Test = 0
@@ -478,8 +472,8 @@ export default {
             id++
           }
         }
-        this.barData.rows.push(t)
-        console.log('>>>>>>>>>>>>>>>barData')
+        this.histogramdata.rows.push(t)
+        console.log('>>>>>>>>>>>>>>>histogramdata')
         console.log(t)
         t = {}
         id = 1
@@ -489,7 +483,7 @@ export default {
       this.log = finallog
     },
     getModelProgress: function() {
-      this.progress_loading.value = modelprogress
+      this.loadingprogress.value = modelprogress
     },
     onChange,
     backendOnChange: function(backendCheckedList) {
@@ -511,12 +505,12 @@ export default {
     isWebNN: function() {
       if (navigator.ml && navigator.ml.getNeuralNetworkContext()) {
         if (!navigator.ml.isPolyfill) {
-          this.isNN = true
+          this.isnn = true
         } else {
-          this.isNN = false
+          this.isnn = false
         }
       } else {
-        this.isNN = false
+        this.isnn = false
       }
     }
   }
