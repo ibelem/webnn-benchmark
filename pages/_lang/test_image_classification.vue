@@ -8,9 +8,49 @@
         <div class="s85">{{ model.intro }}</div>
 
         <div class="s85 runfullwidth atag mt bt">
-          <a-tag color="pink">Version: {{ task.model_version }}</a-tag>
-          <a-tag color="pink">Size: {{ model.modelSize }}</a-tag>
-          <a-tag color="pink">Accuracy: {{ task.accuracy }}</a-tag>
+          <a-tag color="pink" v-if="model.modelVersion">Version: {{ model.modelVersion }}</a-tag>
+          <a-tag color="pink" v-if="model.modelSize">Size: {{ model.modelSize }}</a-tag>
+          
+
+          <a-popover placement="top" v-if="model.top1Accuracy">
+            <template slot="content">
+              Computed using the <a href="https://github.com/tensorflow/tensorflow/tree/master/tensorflow/lite/tools/accuracy/ilsvrc">TFLite accuracy tool</a>.
+            </template>
+            <template slot="title">
+              <span>Model Accuracy</span>
+            </template>
+            <a-tag color="pink">Top 1 Accuracy: {{ model.top1Accuracy }}</a-tag>
+          </a-popover>
+
+          <a-popover placement="top" v-if="model.top5Accuracy">
+            <template slot="content">
+              Computed using the <a href="https://github.com/tensorflow/tensorflow/tree/master/tensorflow/lite/tools/accuracy/ilsvrc">TFLite accuracy tool</a>.
+            </template>
+            <template slot="title">
+              <span>Model Accuracy</span>
+            </template>
+            <a-tag color="pink">Top 5 Accuracy: {{ model.top5Accuracy }}</a-tag>
+          </a-popover>
+
+          <a-popover placement="top" v-if="model.tfLitePerformance">
+            <template slot="content">
+              Benchmarked on Pixel-2 using single thread large core.
+            </template>
+            <template slot="title">
+              <span>Performance</span>
+            </template>
+            <a-tag color="pink">TFLite Performance: {{ model.tfLitePerformance }}</a-tag>
+          </a-popover>
+
+          <a-popover placement="top" v-if="model.tensorflowPerformance">
+            <template slot="content">
+              Benchmarked on Pixel-2 using single thread large core.
+            </template>
+            <template slot="title">
+              <span>Performance</span>
+            </template>
+            <a-tag color="pink">Tensorflow Performance: {{ model.tensorflowPerformance }}</a-tag>
+          </a-popover>
         </div>
 
         <div class="s85 runfullwidth bt option">
@@ -90,7 +130,7 @@
           </div>
         </div>
         <div class="runbtn mt">
-          <a-button type="primary" @click="run">Run {{ task.modelName }}</a-button>
+          <a-button type="primary" @click="run">Run {{ model.modelName }}</a-button>
         </div>
       </div>
     </a-layout-content>
@@ -185,7 +225,7 @@ export default {
   },
   data() {
     return {
-      slidertooltip: true,
+      slidertooltip: false,
       iterations: 3,
       isnn: false,
       backendCheckedList: backendDefaultCheckedList,
@@ -244,12 +284,6 @@ export default {
       gettestimage: '',
       task: {
         id: 1,
-        modelName: 'Mobilenet v1 (TFLite)',
-        description:
-          'An efficient Convolutional Neural Networks for Mobile Vision Applications. Loading MobileNet model trained by ImageNet in TensorFlow Lite format, constructs and inferences it by WebML API.',
-        model_version: 'v1.0_224',
-        accuracy: '70.9%',
-        model_size: '16.9MB',
         paper_url: 'https://arxiv.org/pdf/1704.04861.pdf',
         test: {
           image: [
