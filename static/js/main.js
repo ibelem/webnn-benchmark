@@ -40,6 +40,8 @@ const segmentationModel = [
   'deeplab_mobilenet_v2_513_atrous_tflite'
 ]
 
+let consoledebug = []
+
 let imageElement = null
 let canvasElement = null
 let poseCanvas = null
@@ -47,7 +49,7 @@ const segCanvas = null
 let bkPoseImageSrc = null
 let pnConfigDic = null
 
-function getSelectedOps() {
+const getSelectedOps = () => {
   // todo
 }
 
@@ -58,13 +60,13 @@ const loadUrl = (url, binary) => {
     if (binary) {
       request.responseType = 'arraybuffer'
     }
-    request.addEventListener("progress", function (evt) {
+    request.addEventListener("progress", (evt) => {
       if (evt.lengthComputable) {
         const percentComplete = evt.loaded / evt.total
         modelprogress = percentComplete
       }
     }, false)
-    request.onload = function (ev) {
+    request.onload = (ev) => {
       if (request.readyState === 4) {
         if (request.status === 200) {
           resolve(request.response)
@@ -147,8 +149,6 @@ class Benchmark {
   }
   async runAsync(configuration) {
     this.configuration = configuration
-    console.log(`+++++++++++++++++++++configuration++++++++++++++++++`)
-    console.log(configuration)
     await this.setupAsync()
     const results = await this.executeAsync()
     await this.finalizeAsync()
@@ -191,7 +191,6 @@ class Benchmark {
       tfliteModel.indexOf(modelFormatName) !== -1 ||
       onnxModel.indexOf(modelFormatName) !== -1
     ) {
-      console.log('***************' + modelFormatName)
       for (let i = 0; i < this.configuration.iteration; i++) {
         this.onExecuteSingle(i)
         await new Promise(resolve => requestAnimationFrame(resolve))
@@ -448,9 +447,6 @@ class WebMLJSBenchmark extends Benchmark {
 
     const configModelName = this.configuration.modelFormatName
     const currentModel = this.configuration.model
-
-    console.log(configModelName)
-    console.log(currentModel)
 
     let width = currentModel.inputSize[1]
     let height = currentModel.inputSize[0]
@@ -881,7 +877,11 @@ let bar1 = []
 let bar2 = []
 let bar3 = []
 
-async function run(configuration) {
+const cleanTestResult = () => {
+  testresult = []
+}
+
+const run = async (configuration) => {
   const logger = new Logger()
   logger.group('Benchmark')
 
@@ -1055,5 +1055,6 @@ export {
   posenetbase64,
   nalabel,
   getModelArrayBuffer,
-  clearModelArrayBuffer
+  clearModelArrayBuffer,
+  cleanTestResult
 }

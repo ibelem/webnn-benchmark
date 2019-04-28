@@ -102,7 +102,7 @@
           {{ $t('login.login') }}
         </NuxtLink>
       </a-menu-item>
-      <a-menu-item key="locale">
+      <a-menu-item key="locale" class="last">
         <NuxtLink v-if="$i18n.locale === 'en'" :to="`/zh` + $route.fullPath">
           {{ $t('links.chinese') }}
         </NuxtLink>

@@ -44,6 +44,10 @@
   margin-right: 20px;
 }
 
+.last {
+  margin-right: 0px;
+}
+
 .ant-layout-content {
   min-height: 50vh;
   align-items: center;
@@ -106,7 +110,7 @@ h2 {
 
 .mt { margin-top: 1rem; }
 
-.bt {margin-bottom: 1rem; }
+.mb {margin-bottom: 1rem; }
 
 .ant-alert {
   border-radius: 0px;
@@ -119,7 +123,7 @@ h2 {
 }
 
 .options {
-  border: 1px solid #ffadd2;
+  border: 0px solid #ffadd2;
 }
 
 .optiontitle {
@@ -358,7 +362,7 @@ h2 {
 
 .runhalfwidth {
   display: block;
-  width: 48%;
+  width: 50%;
 }
 
 .ant-tag {
@@ -397,7 +401,6 @@ h2 {
   font-size: 0.75rem;
 }
 
-
 @media (max-width: 768px) {
   #testimage,
   .is {
@@ -421,10 +424,10 @@ h2 {
   }
 
   .options, .logsection, .ant-table-small, .ve-histogram canvas {
-    width: 96% !important;
+    width: 100% !important;
   }
 
-  .ant-table-pagination.ant-pagination { margin-right: 1rem;}
+  .ant-table-pagination.ant-pagination { margin-right: 1rem; }
 
   #log {
     height: 112px;
@@ -439,3 +442,5 @@ h2 {
 .ant-progress-bg {
   height: 1px !important;
 }
+
+

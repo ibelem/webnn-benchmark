@@ -2,19 +2,19 @@
   <a-layout id="components-layout-test-top" class="layout">
     <LHeader/>
     <a-layout-content>
-      <div class='full'>
+      <div class="full">
         <h2>{{ model.modelName }}</h2>
-
         <div class="s85">{{ model.intro }}</div>
-
-        <div class="s85 runfullwidth atag mt bt">
+        <div class="s85 runfullwidth atag mt mb">
           <a-tag color="pink" v-if="model.modelVersion">Version: {{ model.modelVersion }}</a-tag>
           <a-tag color="pink" v-if="model.modelSize">Size: {{ model.modelSize }}</a-tag>
-          
 
           <a-popover placement="top" v-if="model.top1Accuracy">
             <template slot="content">
-              Computed using the <a href="https://github.com/tensorflow/tensorflow/tree/master/tensorflow/lite/tools/accuracy/ilsvrc">TFLite accuracy tool</a>.
+              Computed using the
+              <a
+                href="https://github.com/tensorflow/tensorflow/tree/master/tensorflow/lite/tools/accuracy/ilsvrc"
+              >TFLite accuracy tool</a>.
             </template>
             <template slot="title">
               <span>Model Accuracy</span>
@@ -24,7 +24,10 @@
 
           <a-popover placement="top" v-if="model.top5Accuracy">
             <template slot="content">
-              Computed using the <a href="https://github.com/tensorflow/tensorflow/tree/master/tensorflow/lite/tools/accuracy/ilsvrc">TFLite accuracy tool</a>.
+              Computed using the
+              <a
+                href="https://github.com/tensorflow/tensorflow/tree/master/tensorflow/lite/tools/accuracy/ilsvrc"
+              >TFLite accuracy tool</a>.
             </template>
             <template slot="title">
               <span>Model Accuracy</span>
@@ -33,9 +36,7 @@
           </a-popover>
 
           <a-popover placement="top" v-if="model.tfLitePerformance">
-            <template slot="content">
-              Benchmarked on Pixel-2 using single thread large core.
-            </template>
+            <template slot="content">Benchmarked on Pixel-2 using single thread large core.</template>
             <template slot="title">
               <span>Performance</span>
             </template>
@@ -43,9 +44,7 @@
           </a-popover>
 
           <a-popover placement="top" v-if="model.tensorflowPerformance">
-            <template slot="content">
-              Benchmarked on Pixel-2 using single thread large core.
-            </template>
+            <template slot="content">Benchmarked on Pixel-2 using single thread large core.</template>
             <template slot="title">
               <span>Performance</span>
             </template>
@@ -53,16 +52,28 @@
           </a-popover>
         </div>
 
-        <div class="s85 runfullwidth bt option">
+        <div class="s85 runfullwidth mt mb option">
           <a-alert
             v-if="backendalert"
-            class="bt"
+            class="mt"
             message="No backend selected, stop the testing."
             type="warning"
             closable
           />
           <div class="options">
-            <span class="optiontitle">Backend</span>
+            <a-popover placement="top">
+              <template slot="content">
+                <p>WASM: Compiled Tensorflow Lite C++ kernels to WebAssembly format
+                <br/>WebGL: Tensorflow.js WebGL kernel
+                <br/>Sustained: Prefer maximizing the throughput of successive frames, for example when processing successive frames coming from the camera.
+                <br/>Fast: Prefer returning a single answer as fast as possible, even if this causes more power consumption.
+                <br/>Low: Prefer executing in a way that minimizes battery drain. This is desirable for compilations that will be executed often.</p>
+              </template>
+              <template slot="title">
+                <span>Backend</span>
+              </template>
+              <span class="optiontitle">Backend</span>
+            </a-popover>
             <div class="optionbackend">
               <a-checkbox-group
                 :options="backendPlainOptions"
@@ -79,20 +90,20 @@
           </div>
           <div class="options">
             <span class="optiontitle">Iterations</span>
-            <a-slider :min="2" :max="300" v-model="iterations" :tooltipVisible="slidertooltip" />
-            <a-input-number :min="2" :max="300" :step="1" v-model="iterations" />
+            <a-slider :min="2" :max="300" v-model="iterations" :tooltipVisible="slidertooltip"/>
+            <a-input-number :min="2" :max="300" :step="1" v-model="iterations"/>
           </div>
         </div>
 
         <div v-if="isrun">
-          <div class="run">
+          <div class="run mt">
             <div class="runhalfwidth">
               <div class="s85">Loading Model File: {{ progressLoadingText }}</div>
-              <a-progress :percent="progressLoadingPercent" />
+              <a-progress :percent="progressLoadingPercent"/>
             </div>
             <div class="runhalfwidth">
               <div class="s85">Run Model with Tests: {{ progressText }}</div>
-              <a-progress :percent="progressPercent" />
+              <a-progress :percent="progressPercent"/>
             </div>
           </div>
         </div>
@@ -110,25 +121,53 @@
             </div>
           </div>
         </div>
-        <h2 v-if="showbar" class="runfullwidth">{{ model.modelName }} Benchmark</h2>
-        <div v-if="showbar" class="run">
-          <div class="runhalfwidth">
-            <a-table
-              :columns="columns"
-              :data-source="test_result"
-              size="small"
-              rowKey="id"
-              :pagination="pagination"
-              @change="onChange"
-            />
-            <div class="nalabel">{{ nalabel }}</div>
-          </div>
-          <div class="runhalfwidth">
-            <div class="bar-chart">
-              <ve-histogram v-if="showbar" :data="histogramdata" :settings="chartSettings" rowKey="id"></ve-histogram>
+        <div v-if="showbar && test_result.length > 0">
+          <h2 class="runfullwidth mb">{{ model.modelName }} Benchmark</h2>
+          <div class="run">
+            <div class="runhalfwidth">
+              <a-table
+                :columns="columns"
+                :data-source="test_result"
+                size="small"
+                rowKey="id"
+                :pagination="pagination"
+                @change="onChange"
+              />
+              <div class="nalabel">{{ nalabel }}</div>
+            </div>
+            <div class="runhalfwidth">
+              <div class="bar-chart">
+                <ve-histogram v-if="showbar" :data="histogramdata" :settings="chartSettings"></ve-histogram>
+              </div>
             </div>
           </div>
         </div>
+
+        <div v-if="showbar">
+          <h2 class="runfullwidth mb">{{ model.modelName }} Subgraph Operators Benchmark (WASM)</h2>
+          <div class="run">
+            <div class="runhalfwidth">
+              <a-table
+                :columns="wasmsubgraphcolumns"
+                :data-source="wasmsubgraph"
+                size="small"
+                rowKey="id"
+                :pagination="wasmsubgraphpagination"
+                @change="wasmsubgraphOnChange"
+              />
+            </div>
+            <div class="runhalfwidth">
+              <div class="bar-chart">
+                <ve-ring
+                  v-if="showbar && wasmsubgraphtime"
+                  :data="wasmsubgraphtime"
+                  :settings="wasmsubgraphtimeSettings"
+                ></ve-ring>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="runbtn mt">
           <a-button type="primary" @click="run">Run {{ model.modelName }}</a-button>
         </div>
@@ -151,7 +190,8 @@ import {
   run,
   nalabel,
   getModelArrayBuffer,
-  clearModelArrayBuffer
+  clearModelArrayBuffer,
+  cleanTestResult
 } from '~/static/js/main.js'
 
 const columns = [
@@ -174,13 +214,29 @@ const columns = [
   }
 ]
 
+const wasmsubgraphcolumns = [
+  {
+    title: 'Operator',
+    dataIndex: 'ops'
+  },
+  {
+    title: 'Inference Time (ms)',
+    dataIndex: 'time',
+    sorter: (a, b) => a.time - b.time
+  }
+]
+
 const backendPlainOptions = ['WASM', 'WebGL']
 const backendDefaultCheckedList = ['WASM', 'WebGL']
 const preferPlainOptions = ['Sustained', 'Fast', 'Low']
 const preferDefaultCheckedList = ['Sustained']
 
 function onChange(pagination, sorter) {
-  console.log('params', pagination, sorter)
+  // console.log('params', pagination, sorter)
+}
+
+function wasmsubgraphOnChange(wasmsubgraphpagination, sorter) {
+  // console.log('params', wasmsubgraphpagination, sorter)
 }
 
 export default {
@@ -225,8 +281,19 @@ export default {
   },
   data() {
     return {
+      wasmsubgraph: [],
+      wasmsubgraphtime: {
+        columns: ['ops', 'time']
+      },
+      wasmsubgraphtimeSettings: {
+        dimension: 'ops',
+        metrics: 'time',
+        legendLimit: 20,
+        radius: [60, 100],
+        offsetY: 220
+      },
       slidertooltip: false,
-      iterations: 3,
+      iterations: 2,
       isnn: false,
       backendCheckedList: backendDefaultCheckedList,
       backendIndeterminate: true,
@@ -277,22 +344,24 @@ export default {
         showTotal: total => `Total ${total} items`,
         showSizeChange: (current, pageSize) => (this.pageSize = pageSize)
       },
+      wasmsubgraphcolumns,
+      wasmsubgraphpagination: {
+        pageSize: 9,
+        showSizeChanger: true,
+        pageSizeOptions: ['9', '25', '50', '100', '500', '1000'],
+        showTotal: total => `Total ${total} items`,
+        showSizeChange: (current, pageSize) => (this.pageSize = pageSize)
+      },
       test_result: [],
       log: null,
       isrun: false,
       getbackend: '',
       gettestimage: '',
-      task: {
-        id: 1,
-        paper_url: 'https://arxiv.org/pdf/1704.04861.pdf',
-        test: {
-          image: [
-            '../img/bee_eater.jpg',
-            // '../img/traffic_light.jpg',
-            '../img/pinwheel.jpg'
-          ]
-        }
-      }
+      test: [
+        // '../img/bee_eater.jpg',
+        '../img/traffic_light.jpg',
+        '../img/pinwheel.jpg'
+      ]
     }
   },
   computed: {
@@ -316,18 +385,16 @@ export default {
     },
     progressLoadingText: function() {
       return (
-        (
-          (this.loadingprogress.value / this.loadingprogress.max) *
-          100
-        ).toFixed(0) + '%'
+        ((this.loadingprogress.value / this.loadingprogress.max) * 100).toFixed(
+          0
+        ) + '%'
       )
     },
     progressLoadingPercent: function() {
       return Number(
-        (
-          (this.loadingprogress.value / this.loadingprogress.max) *
-          100
-        ).toFixed(0)
+        ((this.loadingprogress.value / this.loadingprogress.max) * 100).toFixed(
+          0
+        )
       )
     },
     getModel: function() {
@@ -346,10 +413,9 @@ export default {
     setInterval(this.getLog, 100)
     setInterval(this.getModelProgress, 100)
     this.scrollToBottom()
-    this.progress.max =
-      this.realCheckedBackendLength * this.task.test.image.length
+    this.progress.max = this.realCheckedBackendLength * this.test.length
     this.loadingprogress.max = 1
-    // this.gettestimage = this.task.test.image[0]
+    // this.gettestimage = this.test[0]
     this.isWebNN()
     if (this.isnn) {
       this.preferDisabled = false
@@ -385,7 +451,7 @@ export default {
         this.backendCheckedList,
         this.preferCheckedList
       )
-      console.log(this.histogramdata.columns)
+      // console.log(this.histogramdata.columns)
     },
     scrollToBottom: function() {
       this.$nextTick(() => {
@@ -397,10 +463,51 @@ export default {
       new ClipboardJS('#btnlog')
       this.$message.success('Log has been copied to clipboard')
     },
+    subGraph: function(backend) {
+      if (backend === 'WASM') {
+        let subgraphitem = {}
+        let i = 1
+        console.debug = msg => {
+          if (msg.indexOf('Subgraph 0') > -1 && msg.indexOf('WASM') > -1) {
+            const s = msg
+              .replace('Subgraph 0	 (WASM):', '')
+              .replace('{', '')
+              .replace('}', '')
+              .replace(' ms', '')
+            subgraphitem.id = i
+            subgraphitem.ops = s.split('-')[1].trim()
+            subgraphitem.time = Number(s.split('-')[0].trim())
+            this.wasmsubgraph.push(subgraphitem)
+            subgraphitem = {}
+            i++
+          }
+        }
+        console.log('==== wasmsubgraph ====')
+        console.log(this.wasmsubgraph)
+        i = 1
+      }
+    },
+    wasmSubgraphTime: function() {
+      const objArr = this.wasmsubgraph
+      // first, convert data into a Map with reduce
+      const counts = objArr.reduce((prev, curr) => {
+        const count = prev.get(curr.ops) || 0
+        prev.set(curr.ops, curr.time + count)
+        return prev
+      }, new Map())
+      // then, map your counts object back to an array
+      const reducedObjArr = [...counts].map(([ops, value]) => {
+        const time = Number(value).toFixed(2)
+        return { ops, time }
+      })
+      return reducedObjArr
+    },
     run: async function() {
+      this.showbar = false
       let i = 0
       let idvalue = 1
       this.test_result = []
+      cleanTestResult()
 
       if (
         this.backendCheckedListLength == 0 &&
@@ -416,14 +523,13 @@ export default {
       if (this.backendCheckedListLength > 0) {
         console.log(this.backendCheckedList)
         for (const item of this.backendCheckedList) {
-          for (const image of this.task.test.image) {
+          for (const image of this.test) {
             this.currentinference = ''
             this.nalabel = ''
             const configuration = {
               id: idvalue,
               model: this.model,
               modelFormatName: this.modelFormatName,
-              modelVersion: this.task.model_version,
               backend: item,
               prefer: '',
               iteration: this.iterations,
@@ -434,6 +540,8 @@ export default {
             this.getbackend = configuration.backend
             this.gettestimage = configuration.image
             await run(configuration)
+            this.subGraph(item)
+            this.wasmsubgraphtime.rows = this.wasmSubgraphTime()
             this.currentinference = currentinference
             this.nalabel = nalabel
             await this.timeout(500)
@@ -445,14 +553,13 @@ export default {
       if (this.preferCheckedListLength > 0) {
         console.log(this.preferCheckedList)
         for (const p of this.preferCheckedList) {
-          for (const image of this.task.test.image) {
+          for (const image of this.test) {
             this.currentinference = ''
             this.nalabel = ''
             const configuration = {
               id: idvalue,
               model: this.model,
               modelFormatName: this.modelFormatName,
-              modelVersion: this.task.model_version,
               backend: 'WebML',
               prefer: p,
               iteration: this.iterations,
@@ -486,7 +593,7 @@ export default {
       t.Fast = 0
       t.Low = 0
 
-      this.task.test.image.map(image => {
+      this.test.map(image => {
         let id = 1
         for (const item of testresult) {
           if (item.test_case == image.split('/').pop()) {
@@ -507,8 +614,6 @@ export default {
           }
         }
         this.histogramdata.rows.push(t)
-        console.log('>>>>>>>>>>>>>>>histogramdata')
-        console.log(t)
         t = {}
         id = 1
       })
@@ -520,20 +625,19 @@ export default {
       this.loadingprogress.value = modelprogress
     },
     onChange,
+    wasmsubgraphOnChange,
     backendOnChange: function(backendCheckedList) {
       this.backendIndeterminate =
         !!backendCheckedList.length &&
         backendCheckedList.length < backendPlainOptions.length
-      this.progress.max =
-        this.realCheckedBackendLength * this.task.test.image.length
+      this.progress.max = this.realCheckedBackendLength * this.test.length
       this.updateBarColumn()
     },
     preferOnChange: function(preferCheckedList) {
       this.preferIndeterminate =
         !!preferCheckedList.length &&
         preferCheckedList.length < preferPlainOptions.length
-      this.progress.max =
-        this.realCheckedBackendLength * this.task.test.image.length
+      this.progress.max = this.realCheckedBackendLength * this.test.length
       this.updateBarColumn()
     },
     isWebNN: function() {
