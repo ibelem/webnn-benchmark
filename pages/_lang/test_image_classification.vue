@@ -273,6 +273,10 @@ export default {
         defer: true
       },
       {
+        src: '../js/util/protobuf.min.js',
+        defer: true
+      },
+      {
         src: '../js/util/flatbuffers.js',
         defer: true
       },
@@ -286,6 +290,18 @@ export default {
       },
       {
         src: '../js/util/tflite/TFliteModelImporter.js',
+        defer: true
+      },
+      {
+        src: '../js/util/onnx/onnx.js',
+        defer: true
+      },
+      {
+        src: '../js/util/onnx/OnnxModelUtils.js',
+        defer: true
+      },
+      {
+        src: '../js/util/onnx/OnnxModelImporter.js',
         defer: true
       }
     ],
@@ -310,7 +326,7 @@ export default {
         offsetY: 220
       },
       slidertooltip: false,
-      iterations: 2,
+      iterations: 3,
       isnn: false,
       testCheckedList: testDefaultCheckedList,
       testIndeterminate: true,
@@ -483,9 +499,11 @@ export default {
     },
     subGraph: function(backend) {
       if (backend === 'WASM') {
+        console.log('++++++++++++++++++++++++')
         let subgraphitem = {}
         let i = 1
-        console.debug = msg => {
+        window.console.debug = msg => {
+          console.log(msg)
           if (msg.indexOf('Subgraph 0') > -1 && msg.indexOf('WASM') > -1) {
             const s = msg
               .replace('Subgraph 0	 (WASM):', '')
