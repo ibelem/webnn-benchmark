@@ -98,7 +98,7 @@
   text-align: left;
 }
 
-h2 { 
+h2, h3 { 
   color: rgba(222, 12, 101, 0.9);
   font-weight: 200;
   margin-bottom: 0px;
@@ -109,6 +109,8 @@ h2 {
 }
 
 .mt { margin-top: 1rem; }
+
+.mtn { margin-top: -2rem; }
 
 .mb {margin-bottom: 1rem; }
 
@@ -134,12 +136,12 @@ h2 {
 .optionbackend {
   display: inline-block;
   vertical-align: middle;
-  margin: 0 0.2rem;
+  margin: 0 0.6rem;
 }
 
 .ant-slider {
-  width: 60px;
-  margin: 0 0 0 1rem;
+  width: 80px;
+  margin: 0 0 0 0.6rem;
 }
 
 .options, .options span, .ant-slider {
@@ -368,12 +370,17 @@ h2 {
 .ant-tag {
   border-radius: 0px;
   cursor: text !important;
+  padding: 0;
 }
 
 .ant-tag-pink {
   color: rgba(222, 12, 101, 0.9);
   background-color: transparent;
   border: 0px;
+}
+
+.ant-popover-inner {
+  font-size: 0.75rem;
 }
 
 .vc {
@@ -425,6 +432,10 @@ h2 {
 
   .options, .logsection, .ant-table-small, .ve-histogram canvas {
     width: 100% !important;
+  }
+
+  .optionbackend {
+    margin: 0 0.2rem;
   }
 
   .ant-table-pagination.ant-pagination { margin-right: 1rem; }
