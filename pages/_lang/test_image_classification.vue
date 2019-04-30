@@ -156,7 +156,7 @@
           </div>
         </div>
 
-        <div v-if="isrun">
+        <div v-if="isrun" class="mb">
           <div class="run mt">
             <div class="runhalfwidth">
               <div class="s85">Loading Model File: {{ progressLoadingText }}</div>
@@ -170,8 +170,8 @@
         </div>
 
         <div class="run">
-          <div v-show="gettestimage" class="runhalfwidth vc">
-            <img id="testimage" :src="gettestimage" alt="Test Image">
+          <div v-show="testimage" class="runhalfwidth vc">
+            <img id="testimage" :src="testimage" alt="Test Image" />
             <canvas class="testimage"></canvas>
             <div class="inference_label">{{ currentinference }}</div>
           </div>
@@ -392,7 +392,7 @@ export default {
       log: null,
       isrun: false,
       getbackend: '',
-      gettestimage: ''
+      testimage: ''
     }
   },
   computed: {
@@ -449,7 +449,6 @@ export default {
     this.scrollToBottom()
     this.progress.max = this.realCheckedBackendLength * this.testCheckedListLength
     this.loadingprogress.max = 1
-    // this.gettestimage = this.testCheckedList[0]
     this.isWebNN()
     if (this.isnn) {
       this.preferDisabled = false
@@ -457,7 +456,8 @@ export default {
       this.preferDisabled = true
       this.preferCheckedList = []
     }
-    this.updateBarColumn()
+    this.updateBarColumn(),
+    this.testimage = this.testImageSrc(this.testCheckedList[0])
   },
   updated: function() {
     this.scrollToBottom()
@@ -467,6 +467,9 @@ export default {
     clearInterval(this.getLog)
   },
   methods: {
+    testImageSrc: function(name) {
+      return `../img/${name.replace(' ', '_').toLowerCase()}.jpg`
+    },
     timeout: function(ms) {
       return new Promise(resolve => setTimeout(resolve, ms))
     },
@@ -572,10 +575,10 @@ export default {
               iteration: this.iterations,
               // model: this.taskModeFile,
               // label: this.taskLabelFile,
-              image: `../img/${image.replace(' ', '_').toLowerCase()}.jpg`
+              image: this.testImageSrc(image)
             }
             this.getbackend = configuration.backend
-            this.gettestimage = configuration.image
+            this.testimage = this.testImageSrc(image)
             await run(configuration)
             this.subGraph(item)
             this.wasmsubgraphtime.rows = this.wasmSubgraphTime()
@@ -602,10 +605,10 @@ export default {
               iteration: this.iterations,
               // model: this.taskModeFile,
               // label: this.taskLabelFile,
-              image: `../img/${image.replace(' ', '_').toLowerCase()}.jpg`
+              image: this.testImageSrc(image)
             }
             this.getbackend = configuration.backend
-            this.gettestimage = configuration.image
+            this.testimage = this.testImageSrc(image)
             await run(configuration)
             this.currentinference = currentinference
             this.nalabel = nalabel
@@ -668,6 +671,9 @@ export default {
         !!testCheckedList.length &&
         testCheckedList.length < testPlainOptions.length
       this.progress.max = this.realCheckedBackendLength * this.testCheckedListLength
+      if(this.testCheckedList[0]) {
+        this.testimage = this.testImageSrc(this.testCheckedList[0])
+      }
     },
     backendOnChange: function(backendCheckedList) {
       this.backendIndeterminate =

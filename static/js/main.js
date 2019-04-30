@@ -334,8 +334,10 @@ class Benchmark {
       bkPoseImageSrc = imageElement.src
       imageElement.src = segCanvas.toDataURL()
     }
-    if (this.model._backend !== 'WebML')
+    if (this.model._backend != 'WebML') {
       this.model._compilation._preparedModel.dumpProfilingResults()
+      // this.model._compilation._preparedModel._deleteAll()
+    }
     return { computeResults: computeResults, decodeResults: decodeResults }
   }
   /**
@@ -479,6 +481,7 @@ class WebMLJSBenchmark extends Benchmark {
       )
       this.outputTensor = new typedArray(currentModel.outputSize)
       drawContent = imageElement
+      console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + drawContent.src)
       dwidth = width
       dheight = height
     } else if (ssdModel.indexOf(configModelName) !== -1) {
@@ -900,6 +903,9 @@ const run = async (configuration) => {
         if (key == 'model') {
           logger.log(`${key.padStart(12)}: ${configuration[key].modelName} / ${configuration[key].modelSize}`)
           lh.add(`&nbsp;&nbsp;${key}: ${configuration[key].modelName} / ${configuration[key].modelSize}`)
+        } else if (key == 'backend') {
+          logger.log(`${key.padStart(12)}: ${configuration[key].replace('WebML','WebNN')}`)
+          lh.add(`&nbsp;&nbsp;${key}: ${configuration[key].replace('WebML','WebNN')}`)
         } else {
           logger.log(`${key.padStart(12)}: ${configuration[key]}`)
           lh.add(`&nbsp;&nbsp;${key}: ${configuration[key]}`)
@@ -911,7 +917,7 @@ const run = async (configuration) => {
     logger.group('Run')
     lh.add(`Run`)
     const benchmark = new WebMLJSBenchmark()
-    console.log(benchmark)
+    console.log('>>>>>>>>>>>>>>>>>>>>' + benchmark)
     benchmark.onExecuteSingle = i => {
       logger.log(`Iteration: ${i + 1} / ${configuration.iteration}`)
       lh.add(

@@ -39,7 +39,7 @@ export const state = () => ({
         std: [127.5, 127.5, 127.5]
       },
       intro:
-        'MobileNetV2 improves the state of the art performance of mobile models.',
+        'MobileNet v2 improves the state of the art performance of mobile models.',
       paperUrl: 'https://arxiv.org/abs/1801.04381'
     },
     {

@@ -125,7 +125,7 @@ h2, h3 {
 }
 
 .options {
-  border: 0px solid #ffadd2;
+  border-bottom: 0px solid #ffadd2;
 }
 
 .optiontitle {
